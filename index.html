@@ -232,8 +232,7 @@ main{padding:20px 24px 56px}
 .tl-loc{font-size:11px;color:var(--fg-mute)}
 
 /* ─── JOURNALS SECTION ───────────────────────────────────────────── */
-.journals-controls{padding:14px 0 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.journals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:16px}
+.journals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;margin-top:0}
 .jcard{
   background:var(--ink2);border:1px solid var(--rule);border-radius:var(--r-card);
   padding:16px;position:relative;overflow:hidden;
@@ -247,13 +246,31 @@ main{padding:20px 24px 56px}
 .jcard.hap{border-left:3px solid var(--hap)}.jcard.hap::before{background:radial-gradient(ellipse at 0% 0%,rgba(251,146,60,.06),transparent 60%)}
 .jcard.acc{border-left:3px solid var(--acc)}.jcard.acc::before{background:radial-gradient(ellipse at 0% 0%,rgba(52,211,153,.06),transparent 60%)}
 .jcard.ubi{border-left:3px solid var(--ubi)}.jcard.ubi::before{background:radial-gradient(ellipse at 0% 0%,rgba(167,139,250,.06),transparent 60%)}
+.jcard.soon-j{box-shadow:0 0 0 1px var(--soon)}
+.jcard.soon-j:hover{box-shadow:0 0 0 1px var(--soon),var(--shadow-lg)}
 
-.jcard-abbrev{font-size:18px;font-weight:700;letter-spacing:-.3px;margin-bottom:5px}
-.jbadges{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.jcard-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px}
+.jcard-abbrev{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.jbadges{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
 .badge.acc{background:rgba(52,211,153,.1);color:var(--acc);border:1px solid rgba(52,211,153,.25)}
 .badge.ubi{background:rgba(167,139,250,.1);color:var(--ubi);border:1px solid rgba(167,139,250,.25)}
-.jcard-name{font-size:12.5px;color:var(--fg-mute);font-style:italic;font-weight:300;margin-bottom:6px;line-height:1.4}
-.jcard-desc{font-size:12px;color:var(--fg-dim);line-height:1.4}
+.badge.rolling{background:rgba(74,222,128,.08);color:var(--go);border:1px solid rgba(74,222,128,.2);font-size:9px}
+.badge.quarterly{background:rgba(56,189,248,.08);color:var(--xr);border:1px solid rgba(56,189,248,.2);font-size:9px}
+.badge.special{background:rgba(251,191,36,.08);color:var(--gold);border:1px solid rgba(251,191,36,.2);font-size:9px}
+.jcard-name{font-size:12px;color:var(--fg-mute);font-style:italic;font-weight:300;margin-bottom:8px;line-height:1.4}
+.jcard-dates{margin-bottom:8px}
+.jcard-dates-label{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--fg-dim);margin-bottom:4px}
+.jcard-date-row{display:flex;align-items:flex-start;gap:6px;font-size:11.5px;color:var(--fg-mute);line-height:1.4;margin-bottom:2px}
+.jcard-date-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.jcard-date-dot.rolling{background:var(--go)}
+.jcard-date-dot.quarterly{background:var(--xr)}
+.jcard-date-dot.special{background:var(--gold)}
+.jcard-date-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--fg)}
+.jcard-desc{font-size:12px;color:var(--fg-dim);line-height:1.4;border-top:1px solid var(--rule);padding-top:8px;margin-top:4px}
+
+/* journal statusbar */
+.j-statusbar{height:34px;padding:0 24px;display:flex;align-items:center;gap:14px;background:var(--ink);border-bottom:1px solid var(--rule);font-size:12px;color:var(--fg-mute);position:sticky;top:52px;z-index:190}
+.j-stat-num{color:var(--fg);font-weight:600}
 
 /* ─── EMPTY ──────────────────────────────────────────────────────── */
 .empty{grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--fg-mute)}
@@ -393,6 +410,29 @@ main{padding:20px 24px 56px}
         <button class="chip ja-ubi" data-ja="Ubicomp">Ubicomp</button>
       </div>
     </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Type</span>
+      <div class="chips" id="jTypeChips" role="group" aria-label="Submission type filter">
+        <button class="chip neutral active" data-jt="all">All</button>
+        <button class="chip neutral" data-jt="rolling">● Rolling</button>
+        <button class="chip neutral" data-jt="quarterly">◆ Quarterly</button>
+        <button class="chip neutral" data-jt="special">★ Special Issue</button>
+      </div>
+      <select class="ctrl-select" id="jSortSel" aria-label="Sort journals">
+        <option value="area">Sort: by Area</option>
+        <option value="alpha">Sort: A → Z</option>
+        <option value="deadline">Sort: Upcoming deadline</option>
+      </select>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Show</span>
+      <div class="chips" role="group">
+        <button class="chip toggle" id="btnJSoon">Soon deadline</button>
+      </div>
+    </div>
+  </div>
+  <div class="j-statusbar" role="status" aria-live="polite">
+    <span id="jStatText"></span>
   </div>
   <main>
     <div id="journalsGrid" class="journals-grid" role="list"></div>
@@ -466,28 +506,110 @@ const RAW = [
 ];
 
 /* ── JOURNAL DATA ────────────────────────────────────────────── */
+// submissionType: 'rolling' | 'quarterly' | 'special'
+// cycles: array of {label, date (YYYY-MM-DD or null for rolling), note}
+// nextDeadline: YYYY-MM-DD for sorting (null = rolling/no fixed date)
 const JOURNALS = [
-  // HCI
-  {abbr:'ACM TOCHI',  full:'ACM Transactions on Computer-Human Interaction',          area:'HCI',          desc:'Premier HCI journal — flagship publication for human-computer interaction research.'},
-  {abbr:'IJHCS',      full:'Intl. Journal of Human-Computer Studies',                 area:'HCI',          desc:'Covers human-centered AI, UX research, and interactive systems.'},
-  {abbr:'HCI (T&F)',  full:'Human-Computer Interaction (Taylor & Francis)',            area:'HCI',          desc:'Established HCI journal with strong theoretical and empirical focus.'},
-  {abbr:'BIT',        full:'Behaviour & Information Technology',                       area:'HCI',          desc:'Applied HCI — real-world usability, ergonomics, and interaction design.'},
-  {abbr:'ACM TAP',    full:'ACM Transactions on Applied Perception',                  area:'HCI',          desc:'Perception science applied to HCI — visual, auditory, and haptic perception.'},
-  // XR
-  {abbr:'IEEE TVCG',  full:'IEEE Transactions on Visualization & Computer Graphics',  area:'XR',           desc:'Top journal for VR/AR/MR, rendering, and visualization — ISMAR/IEEE VR papers often published here.'},
-  {abbr:'Presence',   full:'Presence: Teleoperators and Virtual Environments (MIT)',   area:'XR',           desc:'Long-running journal on presence, immersion, and virtual environments.'},
-  {abbr:'Frontiers VR',full:'Frontiers in Virtual Reality',                           area:'XR',           desc:'Open-access journal covering VR/AR/MR systems and applications.'},
-  {abbr:'ACM TOG',    full:'ACM Transactions on Graphics',                            area:'XR',           desc:'Premier graphics journal — SIGGRAPH and SIGGRAPH Asia papers are published here.'},
-  // Haptics
-  {abbr:'IEEE ToH',   full:'IEEE Transactions on Haptics',                            area:'Haptics',      desc:'Leading journal for haptic interfaces, vibrotactile systems, and touch perception.'},
-  {abbr:'JMUI',       full:'Journal on Multimodal User Interfaces (Springer)',         area:'Haptics',      desc:'Covers multimodal interaction including haptic, auditory, and gestural systems.'},
-  // Accessibility
-  {abbr:'ACM TACCESS',full:'ACM Transactions on Accessible Computing',                area:'Accessibility',desc:'Most targeted journal for Deaf/HoH and assistive tech research — profile fit ★★★.'},
-  {abbr:'DR:AT',      full:'Disability and Rehabilitation: Assistive Technology',      area:'Accessibility',desc:'Clinical and technical AT research — Deaf/HoH, hearing devices, access tools.'},
-  // Ubicomp
-  {abbr:'IMWUT',      full:'Proc. ACM on Interactive, Mobile, Wearable & Ubiquitous', area:'Ubicomp',      desc:'ACM UbiComp proceedings journal — mobile, wearable, pervasive computing.'},
-  {abbr:'IEEE Pervasive',full:'IEEE Pervasive Computing',                             area:'Ubicomp',      desc:'Pervasive and embedded systems — smart environments, IoT, wearables.'},
-  {abbr:'PUC',        full:'Personal and Ubiquitous Computing (Springer)',             area:'Ubicomp',      desc:'Broad ubicomp journal — contextual computing, smart devices, ambient interaction.'},
+  // ── HCI ──
+  { abbr:'ACM TOCHI', full:'ACM Transactions on Computer-Human Interaction', area:'HCI',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Submissions open year-round',dot:'rolling',note:'~8–12 week review cycle. Published quarterly.'}],
+    desc:'Premier HCI journal — flagship publication for human-computer interaction research.'},
+
+  { abbr:'IJHCS', full:'Intl. Journal of Human-Computer Studies', area:'HCI',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — Elsevier continuous review',dot:'rolling',note:'Typically 3–6 month turnaround.'}],
+    desc:'Covers human-centered AI, UX research, and interactive systems.'},
+
+  { abbr:'HCI (T&F)', full:'Human-Computer Interaction (Taylor & Francis)', area:'HCI',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — Taylor & Francis',dot:'rolling',note:'Submit any time via ScholarOne.'}],
+    desc:'Established HCI journal with strong theoretical and empirical focus.'},
+
+  { abbr:'BIT', full:'Behaviour & Information Technology', area:'HCI',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — Taylor & Francis',dot:'rolling',note:'Applied HCI; fast-track option available.'}],
+    desc:'Applied HCI — real-world usability, ergonomics, and interaction design.'},
+
+  { abbr:'ACM TAP', full:'ACM Transactions on Applied Perception', area:'HCI',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling submissions',dot:'rolling',note:'Published quarterly by ACM.'}],
+    desc:'Perception science applied to HCI — visual, auditory, and haptic perception.'},
+
+  // ── XR ──
+  { abbr:'IEEE TVCG', full:'IEEE Transactions on Visualization & Computer Graphics', area:'XR',
+    submissionType:'special', nextDeadline:'2026-08-15',
+    cycles:[
+      {label:'IEEE VR 2026 special issue — deadline passed (Sep 2025)',dot:'special',note:'Results presented at IEEE VR Mar 2026.'},
+      {label:'ISMAR 2026 special issue — ~May 2026',dot:'special',note:'Accepted papers presented at ISMAR Oct 2026.'},
+      {label:'IEEE VIS 2026 — abstract Mar 21, paper Mar 31',dot:'special',note:'Presented at IEEE VIS Oct 2026.'},
+      {label:'Rolling journal submissions accepted year-round',dot:'rolling',note:''},
+    ],
+    desc:'Top journal for VR/AR/MR — IEEE VR, ISMAR, and IEEE VIS papers are published here as special issues.'},
+
+  { abbr:'Presence', full:'Presence: Teleoperators and Virtual Environments', area:'XR',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — MIT Press',dot:'rolling',note:'One of the oldest XR/VR journals; continuous submissions.'}],
+    desc:'Long-running journal on presence, immersion, and virtual environments.'},
+
+  { abbr:'Frontiers VR', full:'Frontiers in Virtual Reality', area:'XR',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — open access, continuous',dot:'rolling',note:'Fast peer review (~60 days avg). Open access.'}],
+    desc:'Open-access journal covering VR/AR/MR systems and applications.'},
+
+  { abbr:'ACM TOG', full:'ACM Transactions on Graphics', area:'XR',
+    submissionType:'special', nextDeadline:'2026-06-18',
+    cycles:[
+      {label:'SIGGRAPH 2026 — abstract Jan 23, paper Jun 18',dot:'special',note:'Presented at SIGGRAPH Jul 2026, Los Angeles.'},
+      {label:'SIGGRAPH Asia 2026 — abstract May 5 (Stage 1)',dot:'special',note:'Presented at SIGGRAPH Asia Dec 2026, Kuala Lumpur.'},
+    ],
+    desc:'Premier graphics journal — SIGGRAPH and SIGGRAPH Asia papers are published directly in TOG.'},
+
+  // ── HAPTICS ──
+  { abbr:'IEEE ToH', full:'IEEE Transactions on Haptics', area:'Haptics',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[
+      {label:'Rolling journal submissions year-round',dot:'rolling',note:''},
+      {label:'IEEE Haptics Symposium presentation track — Jan 31, 2026 (passed)',dot:'special',note:'Submit ToH paper for presentation at Symposium.'},
+    ],
+    desc:'Leading journal for haptic interfaces, vibrotactile systems, and touch perception.'},
+
+  { abbr:'JMUI', full:'Journal on Multimodal User Interfaces (Springer)', area:'Haptics',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — Springer',dot:'rolling',note:'Covers haptic, auditory, gestural interaction.'}],
+    desc:'Covers multimodal interaction including haptic, auditory, and gestural systems.'},
+
+  // ── ACCESSIBILITY ──
+  { abbr:'ACM TACCESS', full:'ACM Transactions on Accessible Computing', area:'Accessibility',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — quarterly journal',dot:'rolling',note:'~8–12 week review. Strong fit for Deaf/HoH + AT research.'}],
+    desc:'Most targeted journal for Deaf/HoH and assistive tech research — profile fit ★★★.'},
+
+  { abbr:'DR:AT', full:'Disability and Rehabilitation: Assistive Technology', area:'Accessibility',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — Taylor & Francis',dot:'rolling',note:'Clinical + technical AT; interdisciplinary scope.'}],
+    desc:'Clinical and technical AT research — Deaf/HoH, hearing devices, access tools.'},
+
+  // ── UBICOMP ──
+  { abbr:'IMWUT', full:'Proc. ACM on Interactive, Mobile, Wearable & Ubiquitous', area:'Ubicomp',
+    submissionType:'quarterly', nextDeadline:'2026-08-01',
+    cycles:[
+      {label:'Feb 1 — new submissions',dot:'quarterly',note:''},
+      {label:'May 1 — new submissions',dot:'quarterly',note:''},
+      {label:'Aug 1 — new submissions (+ revisions)',dot:'quarterly',note:'Next upcoming cycle.'},
+      {label:'Nov 1 — new submissions',dot:'quarterly',note:''},
+    ],
+    desc:'ACM UbiComp proceedings journal — 3 new-submission cycles per year. Published quarterly.'},
+
+  { abbr:'IEEE Pervasive', full:'IEEE Pervasive Computing', area:'Ubicomp',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — quarterly magazine',dot:'rolling',note:'Call for special issue themes published periodically.'}],
+    desc:'Pervasive and embedded systems — smart environments, IoT, wearables.'},
+
+  { abbr:'PUC', full:'Personal and Ubiquitous Computing (Springer)', area:'Ubicomp',
+    submissionType:'rolling', nextDeadline:null,
+    cycles:[{label:'Rolling — Springer',dot:'rolling',note:'Broad ubicomp scope; continuous submissions via Editorial Manager.'}],
+    desc:'Broad ubicomp journal — contextual computing, smart devices, ambient interaction.'},
 ];
 
 /* ── ENRICH CONFERENCES ──────────────────────────────────────── */
@@ -528,7 +650,7 @@ const S={
   tier:'all', q:'', bestOnly:false, confirmedOnly:false,
   skip2027:false, starredOnly:false, view:'grid',
   starred:new Set(JSON.parse(localStorage.getItem('tracker-v2-starred')||'[]')),
-  section:'conferences', jArea:'all',
+  section:'conferences', jArea:'all', jType:'all', jSort:'area', jSoonOnly:false,
 };
 function saveStarred(){ localStorage.setItem('tracker-v2-starred',JSON.stringify([...S.starred])); }
 
@@ -611,13 +733,50 @@ function tlHtml(d){
 </div>`;
 }
 
+// Is a journal deadline coming up within 60 days of today (May 14 2026)?
+const TODAY = new Date('2026-05-14');
+function jIsSoon(j){
+  if(!j.nextDeadline) return false;
+  const d=new Date(j.nextDeadline);
+  const diff=(d-TODAY)/(1000*60*60*24);
+  return diff>=0&&diff<=60;
+}
+
+function filteredJournals(){
+  const AREA_ORDER={HCI:0,XR:1,Haptics:2,Accessibility:3,Ubicomp:4};
+  let list=JOURNALS.filter(j=>{
+    if(S.jArea!=='all'&&j.area!==S.jArea) return false;
+    if(S.jType!=='all'&&j.submissionType!==S.jType) return false;
+    if(S.jSoonOnly&&!jIsSoon(j)) return false;
+    return true;
+  });
+  if(S.jSort==='area') list.sort((a,b)=>(AREA_ORDER[a.area]??9)-(AREA_ORDER[b.area]??9)||a.abbr.localeCompare(b.abbr));
+  else if(S.jSort==='alpha') list.sort((a,b)=>a.abbr.localeCompare(b.abbr));
+  else if(S.jSort==='deadline') list.sort((a,b)=>{
+    const da=a.nextDeadline?new Date(a.nextDeadline):new Date('2099-01-01');
+    const db=b.nextDeadline?new Date(b.nextDeadline):new Date('2099-01-01');
+    return da-db;
+  });
+  return list;
+}
+
 function journalCardHtml(j){
   const c=jcc(j);
-  const areaBadgeClass=j.area==='HCI'?'hci':j.area==='XR'?'xr':j.area==='Haptics'?'hap':j.area==='Accessibility'?'acc':'ubi';
-  return`<article class="jcard ${c}" role="listitem">
-  <div class="jcard-abbrev">${j.abbr}</div>
-  <div class="jbadges"><span class="badge ${areaBadgeClass}">${j.area}</span></div>
+  const ac=j.area==='HCI'?'hci':j.area==='XR'?'xr':j.area==='Haptics'?'hap':j.area==='Accessibility'?'acc':'ubi';
+  const typeBadge=j.submissionType==='rolling'?'<span class="badge rolling">Rolling</span>':j.submissionType==='quarterly'?'<span class="badge quarterly">Quarterly</span>':'<span class="badge special">Special Issue</span>';
+  const soon=jIsSoon(j);
+  const cyclesHtml=j.cycles.map(cy=>`<div class="jcard-date-row"><div class="jcard-date-dot ${cy.dot}"></div><div><span class="jcard-date-text">${cy.label}</span>${cy.note?` <span style="color:var(--fg-dim);font-size:10px">— ${cy.note}</span>`:''}</div></div>`).join('');
+  return`<article class="jcard ${c}${soon?' soon-j':''}" role="listitem">
+  <div class="jcard-hd">
+    <div class="jcard-abbrev">${j.abbr}</div>
+    ${soon?'<span class="badge soon-b">Deadline soon</span>':''}
+  </div>
+  <div class="jbadges"><span class="badge ${ac}">${j.area}</span>${typeBadge}</div>
   <div class="jcard-name">${j.full}</div>
+  <div class="jcard-dates">
+    <div class="jcard-dates-label">Submission windows</div>
+    ${cyclesHtml}
+  </div>
   <div class="jcard-desc">${j.desc}</div>
 </article>`;
 }
@@ -656,9 +815,14 @@ function renderTimeline(list){
 }
 
 function renderJournals(){
+  const list=filteredJournals();
+  const soonCount=list.filter(jIsSoon).length;
+  document.getElementById('jStatText').innerHTML=
+    `<strong class="j-stat-num">${list.length}</strong> of ${JOURNALS.length} journals
+     <span class="stat-sep">·</span> <strong class="j-stat-num">${list.filter(j=>j.submissionType==='rolling').length}</strong> rolling
+     <span class="stat-sep">·</span> <strong class="j-stat-num">${soonCount}</strong> deadline soon`;
   const el=document.getElementById('journalsGrid');
-  const list=S.jArea==='all'?JOURNALS:JOURNALS.filter(j=>j.area===S.jArea);
-  el.innerHTML=list.length?list.map(journalCardHtml).join(''):'<div class="empty"><div class="empty-icon">🔍</div><h3>No journals match</h3></div>';
+  el.innerHTML=list.length?list.map(journalCardHtml).join(''):'<div class="empty"><div class="empty-icon">🔍</div><h3>No journals match</h3><p>Try adjusting your filters</p></div>';
 }
 
 /* ── EVENTS ──────────────────────────────────────────────────── */
@@ -747,6 +911,22 @@ document.getElementById('jAreaChips').addEventListener('click',e=>{
   S.jArea=btn.dataset.ja;
   document.querySelectorAll('#jAreaChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.ja===S.jArea));
   renderJournals();
+});
+
+// Journal type chips
+document.getElementById('jTypeChips').addEventListener('click',e=>{
+  const btn=e.target.closest('.chip');if(!btn) return;
+  S.jType=btn.dataset.jt;
+  document.querySelectorAll('#jTypeChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.jt===S.jType));
+  renderJournals();
+});
+
+// Journal sort
+document.getElementById('jSortSel').addEventListener('change',e=>{S.jSort=e.target.value;renderJournals();});
+
+// Journal soon toggle
+document.getElementById('btnJSoon').addEventListener('click',function(){
+  S.jSoonOnly=!S.jSoonOnly;this.classList.toggle('active',S.jSoonOnly);renderJournals();
 });
 
 // Toast
