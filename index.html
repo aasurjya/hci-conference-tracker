@@ -3,768 +3,605 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 Conference Tracker — HCI · XR · Haptics</title>
+<title>2026 Research Tracker — HCI · XR · Haptics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ─── TOKENS ───────────────────────────────────────────────────────── */
+/* ─── TOKENS ─────────────────────────────────────────────────────── */
 :root {
-  --ink:        #0e0e14;
-  --ink2:       #1c1c28;
-  --ink3:       #272736;
-  --rule:       #2e2e42;
-  --mute:       #565672;
-  --dim:        #3a3a52;
-  --paper:      #f2f1ef;
-  --fg:         #e8e7f0;
-  --fg-mute:    #8888aa;
-  --fg-dim:     #44445a;
+  --ink:       #0e0e14;
+  --ink2:      #1c1c28;
+  --ink3:      #272736;
+  --rule:      #2e2e42;
+  --mute:      #565672;
+  --dim:       #3a3a52;
+  --fg:        #e8e7f0;
+  --fg-mute:   #8888aa;
+  --fg-dim:    #44445a;
 
-  --hci:        #c084fc;
-  --hci-mid:    #7c3aed;
-  --hci-dark:   #1e1030;
-  --hci-rule:   #3b1d6e;
+  --hci:       #c084fc;
+  --hci-dark:  #1e1030;
+  --hci-rule:  #3b1d6e;
+  --xr:        #38bdf8;
+  --xr-dark:   #051626;
+  --xr-rule:   #103a5a;
+  --hap:       #fb923c;
+  --hap-dark:  #1a0a02;
+  --hap-rule:  #5a2508;
+  --acc:       #34d399;
+  --acc-dark:  #022818;
+  --acc-rule:  #0a5a38;
+  --ubi:       #a78bfa;
+  --ubi-dark:  #160e30;
+  --ubi-rule:  #3020608;
 
-  --xr:         #38bdf8;
-  --xr-mid:     #0284c7;
-  --xr-dark:    #051626;
-  --xr-rule:    #103a5a;
+  --gold:      #fbbf24;
+  --t1:        #fbbf24;
+  --t2:        #38bdf8;
+  --t3:        #8888aa;
+  --go:        #4ade80;
+  --soon:      #f472b6;
 
-  --hap:        #fb923c;
-  --hap-mid:    #c2410c;
-  --hap-dark:   #1a0a02;
-  --hap-rule:   #5a2508;
-
-  --gold:       #fbbf24;
-  --go:         #4ade80;
-  --warn:       #facc15;
-  --soon:       #f472b6;
-
-  --r-card:     10px;
-  --r-chip:     6px;
-  --shadow-sm:  0 2px 8px rgba(0,0,0,.35);
-  --shadow-lg:  0 12px 40px rgba(0,0,0,.5);
-  --t-fast:     120ms cubic-bezier(.4,0,.2,1);
-  --t-med:      220ms cubic-bezier(.4,0,.2,1);
-  --t-spring:   380ms cubic-bezier(.34,1.56,.64,1);
+  --r-card:    10px;
+  --r-chip:    6px;
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.5);
+  --t-fast:    120ms cubic-bezier(.4,0,.2,1);
+  --t-med:     220ms cubic-bezier(.4,0,.2,1);
+  --t-spring:  380ms cubic-bezier(.34,1.56,.64,1);
 }
 [data-theme="light"] {
-  --ink:        #f7f6f4;
-  --ink2:       #eeeceb;
-  --ink3:       #e4e2e0;
-  --rule:       #d4d2d0;
-  --mute:       #a0a0b8;
-  --dim:        #c8c8d8;
-  --fg:         #16151c;
-  --fg-mute:    #55556a;
-  --fg-dim:     #aaaabc;
-  --hci-dark:   #f3eeff;
-  --hci-rule:   #d5bbff;
-  --xr-dark:    #e8f6ff;
-  --xr-rule:    #b0ddf8;
-  --hap-dark:   #fff4ec;
-  --hap-rule:   #fcd0a8;
-  --shadow-sm:  0 2px 8px rgba(0,0,0,.08);
-  --shadow-lg:  0 12px 40px rgba(0,0,0,.14);
+  --ink:      #f7f6f4;
+  --ink2:     #eeeceb;
+  --ink3:     #e4e2e0;
+  --rule:     #d4d2d0;
+  --mute:     #a0a0b8;
+  --dim:      #c8c8d8;
+  --fg:       #16151c;
+  --fg-mute:  #55556a;
+  --fg-dim:   #aaaabc;
+  --hci-dark: #f3eeff;
+  --hci-rule: #d5bbff;
+  --xr-dark:  #e8f6ff;
+  --xr-rule:  #b0ddf8;
+  --hap-dark: #fff4ec;
+  --hap-rule: #fcd0a8;
+  --acc-dark: #e8fff5;
+  --acc-rule: #a0e8cc;
+  --ubi-dark: #f0edff;
+  --ubi-rule: #c8b8f8;
+  --shadow-lg:0 12px 40px rgba(0,0,0,.12);
 }
 
-/* ─── RESET ────────────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--ink);
-  color:var(--fg);
-  min-height:100vh;
-  font-size:14px;
-  line-height:1.55;
-  -webkit-font-smoothing:antialiased;
-}
+body{font-family:'DM Sans',sans-serif;background:var(--ink);color:var(--fg);min-height:100vh;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
 button,select,input{font-family:inherit;font-size:inherit}
 button{cursor:pointer;border:none;background:none}
 
-/* ─── LAYOUT ───────────────────────────────────────────────────────── */
-.shell{display:grid;grid-template-rows:auto auto auto 1fr;min-height:100vh}
-
-/* ─── TOPBAR ───────────────────────────────────────────────────────── */
+/* ─── TOPBAR ─────────────────────────────────────────────────────── */
 .topbar{
-  display:flex;align-items:center;gap:16px;
-  padding:14px 24px;
+  display:flex;align-items:center;gap:0;
+  padding:0 24px;
+  height:52px;
   border-bottom:1px solid var(--rule);
   background:var(--ink);
   position:sticky;top:0;z-index:200;
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
 }
-.brand{
-  font-size:15px;font-weight:600;letter-spacing:-.2px;
-  display:flex;align-items:center;gap:8px;
-}
-.brand-dot{
-  width:8px;height:8px;border-radius:50%;
-  background:linear-gradient(135deg,var(--hci),var(--xr),var(--hap));
-  animation:pulse 3s ease-in-out infinite;
-}
+.brand{font-size:14px;font-weight:600;letter-spacing:-.2px;display:flex;align-items:center;gap:8px;margin-right:24px;flex-shrink:0}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--hci),var(--xr),var(--hap));animation:pulse 3s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 .brand-sub{color:var(--fg-mute);font-weight:400}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+
+/* main tabs */
+.main-tabs{display:flex;height:100%;gap:2px;align-items:center}
+.main-tab{
+  height:100%;padding:0 18px;
+  border-bottom:2px solid transparent;
+  color:var(--fg-mute);font-size:13px;font-weight:500;
+  transition:color var(--t-fast),border-color var(--t-fast);
+  position:relative;
+}
+.main-tab:hover{color:var(--fg)}
+.main-tab.active{color:var(--fg);border-bottom-color:var(--fg)}
+
+.topbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
 .icon-btn{
-  width:34px;height:34px;border-radius:8px;
-  border:1px solid var(--rule);
-  background:var(--ink2);
-  color:var(--fg-mute);
-  display:flex;align-items:center;justify-content:center;
-  font-size:15px;
+  width:32px;height:32px;border-radius:7px;
+  border:1px solid var(--rule);background:var(--ink2);color:var(--fg-mute);
+  display:flex;align-items:center;justify-content:center;font-size:14px;
   transition:color var(--t-fast),border-color var(--t-fast),transform var(--t-fast);
 }
-.icon-btn:hover{color:var(--fg);border-color:var(--mute);transform:scale(1.05)}
+.icon-btn:hover{color:var(--fg);border-color:var(--mute);transform:scale(1.06)}
 .icon-btn:active{transform:scale(.95)}
 
-/* ─── CONTROLS ─────────────────────────────────────────────────────── */
-.controls{
-  padding:14px 24px;
-  border-bottom:1px solid var(--rule);
-  background:var(--ink2);
-  display:flex;flex-direction:column;gap:12px;
-}
+/* ─── CONTROLS (conferences) ─────────────────────────────────────── */
+.controls{padding:12px 24px;border-bottom:1px solid var(--rule);background:var(--ink2);display:flex;flex-direction:column;gap:10px}
 .ctrl-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.ctrl-label{
-  font-size:10px;font-weight:600;letter-spacing:.9px;
-  text-transform:uppercase;color:var(--fg-dim);
-  min-width:52px;flex-shrink:0;
-}
-
-/* chips */
+.ctrl-label{font-size:10px;font-weight:600;letter-spacing:.9px;text-transform:uppercase;color:var(--fg-dim);min-width:44px;flex-shrink:0}
 .chips{display:flex;gap:5px;flex-wrap:wrap}
 .chip{
-  height:28px;padding:0 12px;
-  border-radius:var(--r-chip);
-  border:1px solid var(--rule);
-  background:transparent;
-  color:var(--fg-mute);
+  height:27px;padding:0 11px;border-radius:var(--r-chip);
+  border:1px solid var(--rule);background:transparent;color:var(--fg-mute);
   font-size:12px;font-weight:500;
   transition:color var(--t-fast),background var(--t-fast),border-color var(--t-fast),transform var(--t-fast);
-  position:relative;overflow:hidden;
-}
-.chip::after{
-  content:'';position:absolute;inset:0;
-  background:currentColor;opacity:0;
-  transition:opacity var(--t-fast);
 }
 .chip:hover{color:var(--fg);border-color:var(--mute);transform:translateY(-1px)}
-.chip:hover::after{opacity:.05}
-.chip:active{transform:translateY(0) scale(.97)}
+.chip:active{transform:scale(.97)}
 .chip.active{color:var(--ink);border-color:transparent;font-weight:600}
 .chip.cat-all.active{background:var(--fg)}
 .chip.cat-hci.active{background:var(--hci)}
 .chip.cat-xr.active{background:var(--xr)}
 .chip.cat-hap.active{background:var(--hap)}
-.chip.season.active,.chip.region.active,.chip.toggle.active{
-  background:var(--fg-mute);color:var(--ink)
-}
+.chip.neutral.active,.chip.toggle.active,.chip.tier-chip.active{background:var(--fg-mute);color:var(--ink)}
+.chip.t1.active{background:var(--t1);color:var(--ink)}
+.chip.t2.active{background:var(--t2);color:var(--ink)}
 
-/* search */
+/* journal area chips */
+.chip.ja-all.active{background:var(--fg);color:var(--ink)}
+.chip.ja-hci.active{background:var(--hci);color:var(--ink)}
+.chip.ja-xr.active{background:var(--xr);color:var(--ink)}
+.chip.ja-hap.active{background:var(--hap);color:var(--ink)}
+.chip.ja-acc.active{background:var(--acc);color:var(--ink)}
+.chip.ja-ubi.active{background:var(--ubi);color:var(--ink)}
+
 .search-wrap{position:relative;flex:1;min-width:180px;max-width:320px}
-.search-icon{
-  position:absolute;left:10px;top:50%;transform:translateY(-50%);
-  color:var(--fg-dim);pointer-events:none;font-size:14px;
-  transition:color var(--t-fast);
-}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--fg-dim);pointer-events:none;font-size:14px;transition:color var(--t-fast)}
 .search-wrap:focus-within .search-icon{color:var(--fg-mute)}
-input[type=text]{
-  width:100%;height:32px;
-  padding:0 10px 0 32px;
-  border-radius:var(--r-chip);
-  border:1px solid var(--rule);
-  background:var(--ink3);
-  color:var(--fg);
-  outline:none;
-  transition:border-color var(--t-fast),background var(--t-fast);
-  font-size:13px;
-}
+input[type=text]{width:100%;height:30px;padding:0 10px 0 30px;border-radius:var(--r-chip);border:1px solid var(--rule);background:var(--ink3);color:var(--fg);outline:none;transition:border-color var(--t-fast);font-size:13px}
 input[type=text]::placeholder{color:var(--fg-dim)}
-input[type=text]:focus{border-color:var(--mute);background:var(--ink2)}
-
-/* select */
-.ctrl-select{
-  height:32px;padding:0 10px;
-  border-radius:var(--r-chip);
-  border:1px solid var(--rule);
-  background:var(--ink3);
-  color:var(--fg-mute);
-  outline:none;
-  cursor:pointer;
-  font-size:12px;font-weight:500;
-  transition:border-color var(--t-fast),color var(--t-fast);
-  appearance:none;
-  padding-right:28px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23555570'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;
-  background-position:right 10px center;
-}
-.ctrl-select:focus,.ctrl-select:hover{border-color:var(--mute);color:var(--fg)}
+input[type=text]:focus{border-color:var(--mute)}
+.ctrl-select{height:30px;padding:0 26px 0 10px;border-radius:var(--r-chip);border:1px solid var(--rule);background:var(--ink3);color:var(--fg-mute);outline:none;cursor:pointer;font-size:12px;font-weight:500;transition:border-color var(--t-fast),color var(--t-fast);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23555570'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;background-color:var(--ink3)}
+.ctrl-select:hover,.ctrl-select:focus{border-color:var(--mute);color:var(--fg)}
 .ctrl-select option{background:var(--ink2)}
 
-/* ─── STATUSBAR ─────────────────────────────────────────────────────── */
-.statusbar{
-  height:36px;padding:0 24px;
-  display:flex;align-items:center;gap:16px;
-  background:var(--ink);
-  border-bottom:1px solid var(--rule);
-  font-size:12px;color:var(--fg-mute);
-  position:sticky;top:57px;z-index:190;
-}
+/* ─── STATUSBAR ──────────────────────────────────────────────────── */
+.statusbar{height:34px;padding:0 24px;display:flex;align-items:center;gap:14px;background:var(--ink);border-bottom:1px solid var(--rule);font-size:12px;color:var(--fg-mute);position:sticky;top:52px;z-index:190}
 .stat-num{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
 .stat-sep{color:var(--dim)}
 .view-pills{margin-left:auto;display:flex;gap:2px;background:var(--ink2);border-radius:7px;padding:3px}
-.view-pill{
-  height:24px;padding:0 12px;border-radius:5px;
-  font-size:11px;font-weight:600;color:var(--fg-mute);
-  transition:color var(--t-fast),background var(--t-fast);
-}
+.view-pill{height:22px;padding:0 12px;border-radius:5px;font-size:11px;font-weight:600;color:var(--fg-mute);transition:color var(--t-fast),background var(--t-fast)}
 .view-pill.active{background:var(--ink3);color:var(--fg)}
-.copy-btn{
-  height:24px;padding:0 10px;border-radius:5px;
-  border:1px solid var(--rule);background:transparent;
-  color:var(--fg-dim);font-size:11px;font-weight:500;
-  transition:color var(--t-fast),border-color var(--t-fast);
-}
+.copy-btn{height:22px;padding:0 10px;border-radius:5px;border:1px solid var(--rule);background:transparent;color:var(--fg-dim);font-size:11px;font-weight:500;transition:color var(--t-fast),border-color var(--t-fast)}
 .copy-btn:hover{color:var(--fg);border-color:var(--mute)}
 
-/* ─── MAIN ──────────────────────────────────────────────────────────── */
-main{padding:20px 24px 48px}
+/* ─── MAIN ───────────────────────────────────────────────────────── */
+main{padding:20px 24px 56px}
 
-/* ─── GRID ──────────────────────────────────────────────────────────── */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
-  gap:10px;
-}
+/* ─── CONFERENCE CARDS ───────────────────────────────────────────── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:10px}
 .card{
-  background:var(--ink2);
-  border:1px solid var(--rule);
-  border-radius:var(--r-card);
-  padding:16px;
-  position:relative;
+  background:var(--ink2);border:1px solid var(--rule);border-radius:var(--r-card);
+  padding:15px 16px;position:relative;
   transition:transform var(--t-med),box-shadow var(--t-med),border-color var(--t-med);
-  overflow:hidden;
-  will-change:transform;
+  overflow:hidden;will-change:transform;
 }
-.card::before{
-  content:'';
-  position:absolute;inset:0;
-  opacity:0;
-  transition:opacity var(--t-med);
-  pointer-events:none;
-}
-.card:hover{
-  transform:translateY(-3px) scale(1.005);
-  box-shadow:var(--shadow-lg);
-}
+.card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity var(--t-med);pointer-events:none}
+.card:hover{transform:translateY(-3px) scale(1.004);box-shadow:var(--shadow-lg)}
 .card:hover::before{opacity:1}
-/* Category glow left-border */
-.card.hci{border-left:3px solid var(--hci)}
-.card.hci::before{background:radial-gradient(ellipse at 0% 0%,rgba(192,132,252,.08),transparent 60%)}
-.card.xr{border-left:3px solid var(--xr)}
-.card.xr::before{background:radial-gradient(ellipse at 0% 0%,rgba(56,189,248,.08),transparent 60%)}
-.card.hap{border-left:3px solid var(--hap)}
-.card.hap::before{background:radial-gradient(ellipse at 0% 0%,rgba(251,146,60,.08),transparent 60%)}
-
-/* soon ring */
-.card.soon{box-shadow:0 0 0 1px var(--soon),var(--shadow-sm)}
+.card.hci{border-left:3px solid var(--hci)}.card.hci::before{background:radial-gradient(ellipse at 0% 0%,rgba(192,132,252,.07),transparent 60%)}
+.card.xr{border-left:3px solid var(--xr)}.card.xr::before{background:radial-gradient(ellipse at 0% 0%,rgba(56,189,248,.07),transparent 60%)}
+.card.hap{border-left:3px solid var(--hap)}.card.hap::before{background:radial-gradient(ellipse at 0% 0%,rgba(251,146,60,.07),transparent 60%)}
+.card.soon{box-shadow:0 0 0 1px var(--soon)}
 .card.soon:hover{box-shadow:0 0 0 1px var(--soon),var(--shadow-lg)}
 
-/* card header */
-.card-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
-.card-name{
-  font-size:20px;font-weight:600;letter-spacing:-.4px;line-height:1.1;
-  flex:1;
-}
-.card-actions{display:flex;gap:4px;align-items:center;flex-shrink:0}
-.star-btn{
-  width:28px;height:28px;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;
-  color:var(--fg-dim);
-  transition:color var(--t-fast),background var(--t-fast),transform var(--t-spring);
-}
+.card-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.card-name{font-size:19px;font-weight:600;letter-spacing:-.4px;line-height:1.1;flex:1}
+.star-btn{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--fg-dim);transition:color var(--t-fast),background var(--t-fast),transform var(--t-spring);flex-shrink:0}
 .star-btn:hover{background:var(--ink3);color:var(--gold)}
-.star-btn.on{color:var(--gold);animation:starPop var(--t-spring) forwards}
-@keyframes starPop{
-  0%{transform:scale(1)}
-  40%{transform:scale(1.45) rotate(-8deg)}
-  70%{transform:scale(.9)}
-  100%{transform:scale(1)}
-}
+.star-btn.on{color:var(--gold)}
+.star-btn.on:active{animation:starPop var(--t-spring)}
+@keyframes starPop{0%{transform:scale(1)}40%{transform:scale(1.5) rotate(-8deg)}70%{transform:scale(.9)}100%{transform:scale(1)}}
 
-/* badges */
-.badges{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
-.badge{
-  display:inline-flex;align-items:center;gap:4px;
-  height:20px;padding:0 8px;
-  border-radius:4px;
-  font-size:10px;font-weight:600;letter-spacing:.4px;
-  text-transform:uppercase;
-}
+.badges{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;height:19px;padding:0 7px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
 .badge.hci{background:rgba(192,132,252,.12);color:var(--hci);border:1px solid rgba(192,132,252,.25)}
 .badge.xr{background:rgba(56,189,248,.1);color:var(--xr);border:1px solid rgba(56,189,248,.2)}
 .badge.hap{background:rgba(251,146,60,.1);color:var(--hap);border:1px solid rgba(251,146,60,.2)}
 .badge.best{background:rgba(251,191,36,.1);color:var(--gold);border:1px solid rgba(251,191,36,.2)}
-.badge.soon-badge{background:rgba(244,114,182,.1);color:var(--soon);border:1px solid rgba(244,114,182,.2)}
+.badge.soon-b{background:rgba(244,114,182,.1);color:var(--soon);border:1px solid rgba(244,114,182,.2)}
+.badge.t1{background:rgba(251,191,36,.15);color:var(--t1);border:1px solid rgba(251,191,36,.3)}
+.badge.t2{background:rgba(56,189,248,.1);color:var(--t2);border:1px solid rgba(56,189,248,.2)}
+.badge.t3{background:rgba(136,136,170,.1);color:var(--t3);border:1px solid rgba(136,136,170,.2)}
 
-/* card body */
-.card-focus{
-  font-size:12.5px;color:var(--fg-mute);
-  font-style:italic;font-weight:300;
-  margin-bottom:12px;
-  line-height:1.4;
-}
-/* status indicator */
-.card-meta{display:flex;flex-direction:column;gap:5px}
+.card-focus{font-size:12.5px;color:var(--fg-mute);font-style:italic;font-weight:300;margin-bottom:8px;line-height:1.4}
+.fit-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.fit-tag{height:17px;padding:0 7px;border-radius:20px;font-size:10px;font-weight:500;background:var(--ink3);color:var(--fg-dim);border:1px solid var(--dim)}
+.card-meta{display:flex;flex-direction:column;gap:4px}
 .meta-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--fg-mute)}
-.meta-dot{
-  width:6px;height:6px;border-radius:50%;flex-shrink:0;
-  transition:transform var(--t-fast);
-}
-.meta-dot.confirmed{background:var(--go)}
-.meta-dot.tbd{background:var(--warn)}
-.meta-dot.biennial{background:var(--mute)}
-.card:hover .meta-dot{transform:scale(1.4)}
-.meta-date{
-  font-family:'DM Mono',monospace;font-size:11px;
-  color:var(--fg);font-weight:500;
-}
+.meta-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:transform var(--t-fast)}
+.card:hover .meta-dot{transform:scale(1.5)}
+.meta-dot.confirmed{background:var(--go)}.meta-dot.tbd{background:var(--gold)}.meta-dot.biennial{background:var(--mute)}
+.meta-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--fg);font-weight:500}
 .meta-date.tbd{color:var(--fg-mute)}
-.meta-loc{color:var(--fg-mute)}
 
-/* ─── TIMELINE ──────────────────────────────────────────────────────── */
+/* ─── TIMELINE ───────────────────────────────────────────────────── */
 .timeline{max-width:760px;margin:0 auto}
-.tl-month{margin-bottom:24px}
-.tl-month-hd{
-  display:flex;align-items:center;gap:12px;
-  margin-bottom:8px;
-  position:sticky;top:93px;z-index:10;
-  background:var(--ink);
-  padding:4px 0;
-}
-.tl-month-name{
-  font-size:11px;font-weight:700;letter-spacing:1.2px;
-  text-transform:uppercase;color:var(--fg-dim);
-  min-width:36px;
-}
+.tl-month{margin-bottom:22px}
+.tl-month-hd{display:flex;align-items:center;gap:12px;margin-bottom:8px;position:sticky;top:86px;z-index:10;background:var(--ink);padding:4px 0}
+.tl-month-name{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-dim);min-width:36px}
 .tl-rule{flex:1;height:1px;background:var(--rule)}
 .tl-count{font-size:10px;color:var(--dim)}
-.tl-item{
-  display:grid;
-  grid-template-columns:10px 1fr auto;
-  gap:12px;
-  align-items:start;
-  padding:10px 12px;
-  border-radius:8px;
-  border:1px solid transparent;
-  margin-bottom:4px;
-  transition:background var(--t-fast),border-color var(--t-fast),transform var(--t-fast);
-  cursor:default;
-}
-.tl-item:hover{
-  background:var(--ink2);
-  border-color:var(--rule);
-  transform:translateX(3px);
-}
-.tl-dot{
-  width:8px;height:8px;border-radius:50%;
-  margin-top:5px;flex-shrink:0;
-  transition:transform var(--t-spring);
-}
+.tl-item{display:grid;grid-template-columns:8px 1fr auto;gap:12px;align-items:start;padding:9px 12px;border-radius:8px;border:1px solid transparent;margin-bottom:4px;transition:background var(--t-fast),border-color var(--t-fast),transform var(--t-fast)}
+.tl-item:hover{background:var(--ink2);border-color:var(--rule);transform:translateX(3px)}
+.tl-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;transition:transform var(--t-spring)}
 .tl-item:hover .tl-dot{transform:scale(1.5)}
-.tl-dot.hci{background:var(--hci)}
-.tl-dot.xr{background:var(--xr)}
-.tl-dot.hap{background:var(--hap)}
-.tl-body{}
-.tl-name{font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tl-dot.hci{background:var(--hci)}.tl-dot.xr{background:var(--xr)}.tl-dot.hap{background:var(--hap)}
+.tl-name{font-weight:600;font-size:14px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .tl-focus{font-size:12px;color:var(--fg-mute);font-style:italic}
 .tl-right{text-align:right}
 .tl-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--fg);white-space:nowrap}
 .tl-loc{font-size:11px;color:var(--fg-mute)}
 
-/* ─── JOURNALS ──────────────────────────────────────────────────────── */
-.journals-wrap{margin-top:36px;border:1px solid var(--rule);border-radius:12px;overflow:hidden}
-.journals-hd{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 18px;
-  cursor:pointer;
-  background:var(--ink2);
-  transition:background var(--t-fast);
-  user-select:none;
+/* ─── JOURNALS SECTION ───────────────────────────────────────────── */
+.journals-controls{padding:14px 0 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.journals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:16px}
+.jcard{
+  background:var(--ink2);border:1px solid var(--rule);border-radius:var(--r-card);
+  padding:16px;position:relative;overflow:hidden;
+  transition:transform var(--t-med),box-shadow var(--t-med);
 }
-.journals-hd:hover{background:var(--ink3)}
-.journals-title{font-weight:600;font-size:13px;display:flex;align-items:center;gap:8px}
-.journals-arrow{color:var(--fg-mute);transition:transform var(--t-med)}
-.journals-body{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:0;
-  max-height:0;overflow:hidden;
-  transition:max-height var(--t-med);
-}
-.journals-body.open{max-height:600px}
-.journal-item{
-  padding:14px 18px;
-  border-top:1px solid var(--rule);
-  border-right:1px solid var(--rule);
-  transition:background var(--t-fast);
-}
-.journal-item:hover{background:var(--ink3)}
-.journal-name{font-weight:600;font-size:13px;margin-bottom:3px}
-.journal-desc{font-size:11.5px;color:var(--fg-mute);line-height:1.4}
+.jcard::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity var(--t-med);pointer-events:none}
+.jcard:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.jcard:hover::before{opacity:1}
+.jcard.hci{border-left:3px solid var(--hci)}.jcard.hci::before{background:radial-gradient(ellipse at 0% 0%,rgba(192,132,252,.06),transparent 60%)}
+.jcard.xr{border-left:3px solid var(--xr)}.jcard.xr::before{background:radial-gradient(ellipse at 0% 0%,rgba(56,189,248,.06),transparent 60%)}
+.jcard.hap{border-left:3px solid var(--hap)}.jcard.hap::before{background:radial-gradient(ellipse at 0% 0%,rgba(251,146,60,.06),transparent 60%)}
+.jcard.acc{border-left:3px solid var(--acc)}.jcard.acc::before{background:radial-gradient(ellipse at 0% 0%,rgba(52,211,153,.06),transparent 60%)}
+.jcard.ubi{border-left:3px solid var(--ubi)}.jcard.ubi::before{background:radial-gradient(ellipse at 0% 0%,rgba(167,139,250,.06),transparent 60%)}
 
-/* ─── EMPTY ─────────────────────────────────────────────────────────── */
-.empty{
-  grid-column:1/-1;
-  padding:60px 20px;text-align:center;
-  color:var(--fg-mute);
-}
-.empty-icon{font-size:32px;margin-bottom:12px}
-.empty h3{font-size:15px;font-weight:500;margin-bottom:6px}
+.jcard-abbrev{font-size:18px;font-weight:700;letter-spacing:-.3px;margin-bottom:5px}
+.jbadges{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.badge.acc{background:rgba(52,211,153,.1);color:var(--acc);border:1px solid rgba(52,211,153,.25)}
+.badge.ubi{background:rgba(167,139,250,.1);color:var(--ubi);border:1px solid rgba(167,139,250,.25)}
+.jcard-name{font-size:12.5px;color:var(--fg-mute);font-style:italic;font-weight:300;margin-bottom:6px;line-height:1.4}
+.jcard-desc{font-size:12px;color:var(--fg-dim);line-height:1.4}
+
+/* ─── EMPTY ──────────────────────────────────────────────────────── */
+.empty{grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--fg-mute)}
+.empty-icon{font-size:28px;margin-bottom:10px}
+.empty h3{font-size:15px;font-weight:500;margin-bottom:4px}
 .empty p{font-size:13px;color:var(--fg-dim)}
 
-/* ─── TOAST ─────────────────────────────────────────────────────────── */
-.toast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);
-  background:var(--fg);color:var(--ink);
-  padding:9px 18px;border-radius:8px;
-  font-size:13px;font-weight:500;
-  opacity:0;pointer-events:none;
-  transition:opacity var(--t-fast),transform var(--t-fast);
-  z-index:999;white-space:nowrap;
-}
+/* ─── TOAST ──────────────────────────────────────────────────────── */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--fg);color:var(--ink);padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:opacity var(--t-fast),transform var(--t-fast);z-index:999;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ─── ANIMATIONS ────────────────────────────────────────────────────── */
-.card,.tl-item{animation:fadeIn .18s ease both}
+.card,.tl-item,.jcard{animation:fadeIn .16s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-/* ─── RESPONSIVE ─────────────────────────────────────────────────────── */
 @media(max-width:600px){
   .topbar,.controls,.statusbar,main{padding-left:14px;padding-right:14px}
-  .grid{grid-template-columns:1fr}
+  .grid,.journals-grid{grid-template-columns:1fr}
   .brand-sub{display:none}
-  .ctrl-label{min-width:40px}
-  .statusbar{height:auto;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+  .ctrl-label{min-width:38px}
 }
 </style>
 </head>
 <body>
-<div class="shell">
 
-<!-- TOPBAR -->
+<!-- ─── TOPBAR ─────────────────────────────────────────────────── -->
 <header class="topbar">
   <div class="brand">
     <div class="brand-dot"></div>
-    Conference Tracker
-    <span class="brand-sub">/ HCI · XR · Haptics 2026</span>
+    Research Tracker
+    <span class="brand-sub">/ 2026</span>
   </div>
+  <nav class="main-tabs" role="tablist" aria-label="Main sections">
+    <button class="main-tab active" data-section="conferences" role="tab" aria-selected="true">Conferences</button>
+    <button class="main-tab" data-section="journals" role="tab" aria-selected="false">Journals</button>
+  </nav>
   <div class="topbar-right">
-    <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">☀</button>
+    <button class="icon-btn" id="themeBtn" title="Toggle theme">☀</button>
   </div>
 </header>
 
-<!-- CONTROLS -->
-<div class="controls" role="search" aria-label="Filter and sort conferences">
-  <div class="ctrl-row">
-    <span class="ctrl-label">Category</span>
-    <div class="chips" id="catChips" role="group" aria-label="Filter by category">
-      <button class="chip cat-all active" data-cat="all">All</button>
-      <button class="chip cat-hci" data-cat="HCI">HCI</button>
-      <button class="chip cat-xr" data-cat="XR">XR / VR / AR</button>
-      <button class="chip cat-hap" data-cat="Haptics">Haptics</button>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CONFERENCES SECTION -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="conferencesSection">
+
+  <!-- CONTROLS -->
+  <div class="controls" role="search">
+    <div class="ctrl-row">
+      <span class="ctrl-label">Track</span>
+      <div class="chips" id="catChips" role="group" aria-label="Category filter">
+        <button class="chip cat-all active" data-cat="all">All</button>
+        <button class="chip cat-hci" data-cat="HCI">HCI</button>
+        <button class="chip cat-xr" data-cat="XR">XR / VR / AR</button>
+        <button class="chip cat-hap" data-cat="Haptics">Haptics</button>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="search" placeholder="Search name, focus, location…" autocomplete="off">
+      </div>
     </div>
-    <div class="search-wrap">
-      <span class="search-icon" aria-hidden="true">⌕</span>
-      <input type="text" id="search" placeholder="Search name, focus, location…" aria-label="Search conferences" autocomplete="off">
+    <div class="ctrl-row">
+      <span class="ctrl-label">Tier</span>
+      <div class="chips" id="tierChips" role="group" aria-label="Tier filter">
+        <button class="chip neutral active" data-tier="all">All</button>
+        <button class="chip t1" data-tier="1">T1 Must-Target</button>
+        <button class="chip t2" data-tier="2">T2 High-Relevance</button>
+        <button class="chip neutral" data-tier="3">T3 Niche</button>
+      </div>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Season</span>
+      <div class="chips" id="seasonChips" role="group" aria-label="Season filter">
+        <button class="chip neutral active" data-s="all">All</button>
+        <button class="chip neutral" data-s="spring">Spring</button>
+        <button class="chip neutral" data-s="summer">Summer</button>
+        <button class="chip neutral" data-s="fall">Fall</button>
+        <button class="chip neutral" data-s="winter">Winter</button>
+      </div>
+      <select class="ctrl-select" id="regionSel">
+        <option value="all">All regions</option>
+        <option value="usa">🇺🇸 USA</option>
+        <option value="europe">🌍 Europe</option>
+        <option value="asia">🌏 Asia–Pacific</option>
+        <option value="other">🌎 Other</option>
+        <option value="tbd">📍 TBD</option>
+      </select>
+      <select class="ctrl-select" id="sortSel">
+        <option value="chrono">↕ Chronological</option>
+        <option value="alpha">↕ A → Z</option>
+        <option value="cat">↕ Category</option>
+        <option value="tier">↕ Tier</option>
+        <option value="region">↕ Region</option>
+        <option value="confirmed">↕ Confirmed first</option>
+      </select>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Show</span>
+      <div class="chips" role="group">
+        <button class="chip toggle" id="btnBest">⭐ Best stack</button>
+        <button class="chip toggle" id="btnConfirmed">● Confirmed dates</button>
+        <button class="chip toggle" id="btnSkip">Skip 2027+</button>
+        <button class="chip toggle" id="btnStarred">☆ My starred</button>
+      </div>
     </div>
   </div>
-  <div class="ctrl-row">
-    <span class="ctrl-label">Season</span>
-    <div class="chips" id="seasonChips" role="group" aria-label="Filter by season">
-      <button class="chip season active" data-s="all">All</button>
-      <button class="chip season" data-s="spring">Spring</button>
-      <button class="chip season" data-s="summer">Summer</button>
-      <button class="chip season" data-s="fall">Fall</button>
-      <button class="chip season" data-s="winter">Winter</button>
+
+  <!-- STATUSBAR -->
+  <div class="statusbar" role="status" aria-live="polite">
+    <span id="statText"></span>
+    <div class="view-pills" role="group">
+      <button class="view-pill active" data-view="grid">▦ Grid</button>
+      <button class="view-pill" data-view="timeline">≡ Timeline</button>
     </div>
-    <select class="ctrl-select" id="regionSel" aria-label="Filter by region">
-      <option value="all">All regions</option>
-      <option value="usa">🇺🇸 USA</option>
-      <option value="europe">🌍 Europe</option>
-      <option value="asia">🌏 Asia–Pacific</option>
-      <option value="other">🌎 Other</option>
-      <option value="tbd">📍 TBD</option>
-    </select>
-    <select class="ctrl-select" id="sortSel" aria-label="Sort conferences">
-      <option value="chrono">↕ Chronological</option>
-      <option value="alpha">↕ A → Z</option>
-      <option value="cat">↕ Category</option>
-      <option value="region">↕ Region</option>
-      <option value="confirmed">↕ Confirmed first</option>
-    </select>
+    <button class="copy-btn" id="copyBtn">⎘ Copy</button>
   </div>
-  <div class="ctrl-row">
-    <span class="ctrl-label">Show</span>
-    <div class="chips" role="group" aria-label="Quick filters">
-      <button class="chip toggle" id="btnBest">⭐ Best stack</button>
-      <button class="chip toggle" id="btnConfirmed">● Confirmed dates</button>
-      <button class="chip toggle" id="btnSkip">Skip 2027+</button>
-      <button class="chip toggle" id="btnStarred">☆ My starred</button>
-    </div>
-  </div>
+
+  <!-- CONTENT -->
+  <main>
+    <div id="gridView" class="grid" role="list"></div>
+    <div id="timelineView" class="timeline" style="display:none"></div>
+  </main>
 </div>
 
-<!-- STATUSBAR -->
-<div class="statusbar" role="status" aria-live="polite">
-  <span id="statText"></span>
-  <div class="view-pills" role="group" aria-label="View mode">
-    <button class="view-pill active" data-view="grid" aria-pressed="true">▦ Grid</button>
-    <button class="view-pill" data-view="timeline" aria-pressed="false">≡ Timeline</button>
-  </div>
-  <button class="copy-btn" id="copyBtn" title="Copy filtered list">⎘ Copy</button>
-</div>
-
-<!-- MAIN -->
-<main>
-  <div id="gridView" class="grid" role="list" aria-label="Conferences"></div>
-  <div id="timelineView" class="timeline" style="display:none" aria-label="Conferences by month"></div>
-
-  <!-- JOURNALS -->
-  <div class="journals-wrap" id="journalsWrap">
-    <div class="journals-hd" id="journalsToggle" role="button" aria-expanded="false" tabindex="0">
-      <div class="journals-title">📄 Top Journals in HCI, XR & Haptics</div>
-      <span class="journals-arrow" id="journalArrow">▾</span>
-    </div>
-    <div class="journals-body" id="journalsBody">
-      <div class="journal-item"><div class="journal-name">ACM TOCHI</div><div class="journal-desc">Trans. on Computer-Human Interaction — Premier HCI journal</div></div>
-      <div class="journal-item"><div class="journal-name">IEEE TVCG</div><div class="journal-desc">Trans. Visualization & Computer Graphics — Top for VR/AR/MR</div></div>
-      <div class="journal-item"><div class="journal-name">IEEE ToH</div><div class="journal-desc">Transactions on Haptics — Leading haptic interfaces journal</div></div>
-      <div class="journal-item"><div class="journal-name">IMWUT</div><div class="journal-desc">Proc. ACM Interactive, Mobile, Wearable & Ubiquitous</div></div>
-      <div class="journal-item"><div class="journal-name">IJHCS</div><div class="journal-desc">Intl. Journal of Human-Computer Studies — AI, UX research</div></div>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- JOURNALS SECTION -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="journalsSection" style="display:none">
+  <div class="controls">
+    <div class="ctrl-row">
+      <span class="ctrl-label">Area</span>
+      <div class="chips" id="jAreaChips" role="group" aria-label="Journal area filter">
+        <button class="chip ja-all active" data-ja="all">All</button>
+        <button class="chip ja-hci" data-ja="HCI">HCI</button>
+        <button class="chip ja-xr" data-ja="XR">XR / VR / AR</button>
+        <button class="chip ja-hap" data-ja="Haptics">Haptics</button>
+        <button class="chip ja-acc" data-ja="Accessibility">Accessibility</button>
+        <button class="chip ja-ubi" data-ja="Ubicomp">Ubicomp</button>
+      </div>
     </div>
   </div>
-</main>
+  <main>
+    <div id="journalsGrid" class="journals-grid" role="list"></div>
+  </main>
 </div>
 
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
 <script>
-/* ── DATA ──────────────────────────────────────────────────────── */
-// Each conference listed ONCE. cats[] = primary + overlap categories.
+/* ── CONFERENCE DATA ─────────────────────────────────────────── */
 const BEST = new Set(['CHI','UIST','IEEE VR','ISMAR','World Haptics','SUI','TEI']);
 
+// tier: 1=Must Target, 2=High Relevance, 3=Niche, null=unranked (profile: Deaf/HoH, MR, Collab, AT)
 const RAW = [
-  // HCI
-  {n:'CHI',       full:'Human Factors in Computing',         date:'Apr 13–17',   loc:'Barcelona, Spain',       cats:['HCI','Haptics']},
-  {n:'UIST',      full:'UI Software & Technology',           date:'Nov 2–5',     loc:'Detroit, MI, USA',       cats:['HCI','Haptics']},
-  {n:'CSCW',      full:'Cooperative Work & Social Computing',date:'Oct 10–14',   loc:'Salt Lake City, USA',    cats:['HCI']},
-  {n:'DIS',       full:'Designing Interactive Systems',      date:'Jun 13–17',   loc:'Singapore',              cats:['HCI']},
-  {n:'IUI',       full:'Intelligent User Interfaces',        date:'Jul 13–16',   loc:'Limassol, Cyprus',       cats:['HCI']},
-  {n:'TEI',       full:'Tangible, Embedded & Embodied',      date:'Mar 8–11',    loc:'Chicago, IL, USA',       cats:['HCI','Haptics']},
-  {n:'MobileHCI', full:'Mobile HCI',                         date:'Aug 31–Sep 3',loc:'Swansea, Wales',         cats:['HCI']},
-  {n:'UbiComp',   full:'Ubiquitous Computing',               date:'Sep (TBD)',   loc:'TBD',                    cats:['HCI']},
-  {n:'SUI',       full:'Spatial User Interaction',           date:'Oct 10–11',   loc:'Bari, Italy',            cats:['XR','HCI','Haptics']},
-  {n:'ISS',       full:'Interactive Surfaces & Spaces',      date:'Nov (TBD)',   loc:'TBD',                    cats:['HCI']},
-  {n:'ASSETS',    full:'Accessibility & Assistive Tech.',     date:'Oct 25–28',   loc:'Porto, Portugal',        cats:['HCI']},
-  {n:'C&C',       full:'Creativity & Cognition',             date:'Jul 1–4',     loc:'London, UK',             cats:['HCI']},
-  {n:'ICMI',      full:'Multimodal Interaction',             date:'Oct 5–9',     loc:'Napoli, Italy',          cats:['HCI']},
-  {n:'AutoUI',    full:'Automotive User Interfaces',         date:'Sep 20–23',   loc:'Gothenburg, Sweden',     cats:['HCI']},
-  {n:'HCI Intl',  full:'International HCI Conference',       date:'Jul (TBD)',   loc:'Montreal, Canada',       cats:['HCI']},
-  {n:'AH',        full:'Augmented Humans',                   date:'Mar 16–19',   loc:'Okinawa, Japan',         cats:['HCI','XR']},
-  {n:'EICS',      full:'Eng. Interactive Computing Systems', date:'Jun 30–Jul 3',loc:'Patras, Greece',         cats:['HCI']},
-  {n:'NordiCHI',  full:'Nordic HCI Conference',              date:'Oct 3–4',     loc:'Vaasa, Finland',         cats:['HCI']},
-  {n:'INTERACT',  full:'Intl. Conference on HCI',            date:'Biennial (2027 next)',loc:'TBD',            cats:['HCI']},
-  {n:'RecSys',    full:'Recommender Systems',                date:'Sep 28–Oct 2',loc:'Minneapolis, USA',       cats:['HCI']},
-  // XR
-  {n:'IEEE VR',   full:'VR & 3D User Interfaces',           date:'Mar 21–25',   loc:'Daegu, S. Korea',        cats:['XR','Haptics']},
-  {n:'ISMAR',     full:'Augmented & Mixed Reality',          date:'Oct 5–9',     loc:'Bari, Italy',            cats:['XR','Haptics']},
-  {n:'SIGGRAPH',  full:'Computer Graphics & Interaction',    date:'Jul 19–23',   loc:'Los Angeles, USA',       cats:['XR']},
-  {n:'SIGGRAPH Asia',full:'Graphics & Interactive Tech.',    date:'Dec 1–4',     loc:'Kuala Lumpur, MY',       cats:['XR']},
-  {n:'EuroVR',    full:'VR/AR Research & Industry',          date:'Dec (TBD)',   loc:'TBD',                    cats:['XR']},
-  {n:'3DUI',      full:'3D User Interfaces (co-located w/ IEEE VR)',date:'Mar (w/ IEEE VR)',loc:'Daegu, S. Korea',cats:['XR']},
-  {n:'VRST',      full:'VR Systems & Technologies',          date:'Nov 16–18',   loc:'Sendai, Japan',          cats:['XR']},
-  {n:'AWE',       full:'Augmented World Expo',               date:'Jun (TBD)',   loc:'Long Beach, USA',        cats:['XR']},
-  {n:'Laval Virtual',full:'VR / AR Innovation',             date:'Apr (TBD)',   loc:'Laval, France',          cats:['XR']},
-  {n:'IEEE VIS',  full:'Visualization & Visual Analytics',   date:'Oct (TBD)',   loc:'TBD',                    cats:['XR']},
-  {n:'ILRN',      full:'Immersive Learning Research',        date:'Jun (TBD)',   loc:'TBD',                    cats:['XR']},
-  {n:'ACM MM',    full:'Multimedia, AI & Immersive',         date:'Nov 10–14',   loc:'Rio de Janeiro, BR',     cats:['XR']},
-  {n:'CHI PLAY',  full:'Games & Playable Media',             date:'Nov 2–5',     loc:'York, UK',               cats:['XR']},
-  {n:'ICAT-EGVE', full:'Core Technologies of Virtual Envs.', date:'Dec (TBD)',   loc:'TBD',                    cats:['XR']},
-  {n:'XR Expo',   full:'Enterprise XR Solutions',            date:'Apr (TBD)',   loc:'Stuttgart, Germany',     cats:['XR']},
-  {n:'MetroXRAINE',full:'XR + AI Convergence',              date:'Oct (TBD)',   loc:'TBD',                    cats:['XR']},
-  {n:'WebXR',     full:'Web-based XR Technology',            date:'Fall (TBD)', loc:'TBD',                    cats:['XR']},
-  {n:'G4C',       full:'Games for Change Festival',          date:'Jun (TBD)',   loc:'New York, USA',          cats:['XR']},
-  {n:'CES',       full:'XR Hardware & Future Tech',          date:'Jan 6–9',     loc:'Las Vegas, USA',         cats:['XR']},
-  // Haptics
-  {n:'World Haptics',full:'Broad Haptics Research',          date:'Biennial (2027 next)',loc:'TBD',            cats:['Haptics']},
-  {n:'IEEE Haptics',full:'Haptic Interfaces & Systems',      date:'Mar 29–Apr 1',loc:'Reno, NV, USA',         cats:['Haptics']},
-  {n:'EuroHaptics',full:'EuroHaptics Conference',            date:'Jul 6–9',     loc:'Siena, Italy',          cats:['Haptics']},
-  {n:'AsiaHaptics',full:'Haptics Research Asia',             date:'Nov (TBD)',   loc:'TBD',                    cats:['Haptics']},
-  {n:'IEEE WHC',  full:'Wearable Haptics & Systems',         date:'Jul (TBD)',   loc:'TBD',                    cats:['Haptics']},
-  {n:'IEEE RO-MAN',full:'Human-Robot Interaction & Haptics', date:'Aug (TBD)',   loc:'TBD',                    cats:['Haptics']},
-  {n:'ICRA',      full:'Robotics & Haptic Systems',          date:'Jun 1–5',     loc:'Vienna, Austria',        cats:['Haptics']},
-  {n:'IROS',      full:'Intelligent Robots & Systems',       date:'Sep 27–Oct 1',loc:'Pittsburgh, USA',        cats:['Haptics']},
-  {n:'EuroXR',    full:'XR + Tactile Technologies',          date:'Dec (TBD)',   loc:'TBD',                    cats:['Haptics','XR']},
-  {n:'IEEE Sensors',full:'Tactile Sensors & Systems',        date:'Oct (TBD)',   loc:'TBD',                    cats:['Haptics']},
-  {n:'BioRob',    full:'Medical Haptics & Robotics',         date:'Biennial (TBD)',loc:'TBD',                  cats:['Haptics']},
-  {n:'HRI',       full:'Physical Human-Robot Interaction',   date:'Mar 16–19',   loc:'Edinburgh, UK',          cats:['Haptics']},
-  {n:'EMBC',      full:'Biomedical Eng. (Touch Systems)',     date:'Jul (TBD)',   loc:'TBD',                    cats:['Haptics']},
-  {n:'WearSys',   full:'Wearable Systems & Haptics',         date:'Varies (TBD)',loc:'TBD',                    cats:['Haptics']},
+  // ── HCI ──
+  {n:'CHI',         full:'Human Factors in Computing',           date:'Apr 13–17',    loc:'Barcelona, Spain',     cats:['HCI','Haptics'],          tier:1, fit:['Deaf/HoH','Collab','MR','Assistive Tech']},
+  {n:'UIST',        full:'UI Software & Technology',             date:'Nov 2–5',      loc:'Detroit, MI, USA',     cats:['HCI','Haptics'],          tier:1, fit:['Haptics','MR','Deaf/HoH']},
+  {n:'CSCW',        full:'Cooperative Work & Social Computing',  date:'Oct 10–14',    loc:'Salt Lake City, USA',  cats:['HCI'],                   tier:1, fit:['Collab','Deaf/HoH','Assistive Tech']},
+  {n:'DIS',         full:'Designing Interactive Systems',        date:'Jun 13–17',    loc:'Singapore',            cats:['HCI'],                   tier:2, fit:['Assistive Tech','Collab']},
+  {n:'IUI',         full:'Intelligent User Interfaces',          date:'Jul 13–16',    loc:'Limassol, Cyprus',     cats:['HCI'],                   tier:3, fit:['Deaf/HoH','Assistive Tech']},
+  {n:'TEI',         full:'Tangible, Embedded & Embodied',        date:'Mar 8–11',     loc:'Chicago, IL, USA',     cats:['HCI','Haptics'],          tier:2, fit:['Haptics','Assistive Tech']},
+  {n:'MobileHCI',   full:'Mobile HCI',                          date:'Aug 31–Sep 3', loc:'Swansea, Wales',       cats:['HCI'],                   tier:null, fit:[]},
+  {n:'UbiComp',     full:'Ubiquitous Computing',                 date:'Sep (TBD)',    loc:'TBD',                  cats:['HCI'],                   tier:null, fit:[]},
+  {n:'SUI',         full:'Spatial User Interaction',             date:'Oct 10–11',    loc:'Bari, Italy',          cats:['XR','HCI','Haptics'],     tier:2, fit:['MR','Collab','Haptics']},
+  {n:'ISS',         full:'Interactive Surfaces & Spaces',        date:'Nov (TBD)',    loc:'TBD',                  cats:['HCI'],                   tier:null, fit:[]},
+  {n:'ASSETS',      full:'Accessibility & Assistive Technology', date:'Oct 25–28',    loc:'Porto, Portugal',      cats:['HCI'],                   tier:1, fit:['Deaf/HoH','Assistive Tech','MR']},
+  {n:'C&C',         full:'Creativity & Cognition',               date:'Jul 1–4',      loc:'London, UK',           cats:['HCI'],                   tier:null, fit:[]},
+  {n:'ICMI',        full:'Multimodal Interaction',               date:'Oct 5–9',      loc:'Napoli, Italy',        cats:['HCI'],                   tier:2, fit:['Deaf/HoH','Haptics','MR']},
+  {n:'AutoUI',      full:'Automotive User Interfaces',           date:'Sep 20–23',    loc:'Gothenburg, Sweden',   cats:['HCI'],                   tier:null, fit:[]},
+  {n:'HCI Intl',    full:'International HCI Conference',         date:'Jul (TBD)',    loc:'Montreal, Canada',     cats:['HCI'],                   tier:null, fit:[]},
+  {n:'AH',          full:'Augmented Humans',                     date:'Mar 16–19',    loc:'Okinawa, Japan',       cats:['HCI','XR'],              tier:null, fit:['MR']},
+  {n:'EICS',        full:'Eng. Interactive Computing Systems',   date:'Jun 30–Jul 3', loc:'Patras, Greece',       cats:['HCI'],                   tier:null, fit:[]},
+  {n:'NordiCHI',    full:'Nordic HCI Conference',                date:'Oct 3–4',      loc:'Vaasa, Finland',       cats:['HCI'],                   tier:null, fit:[]},
+  {n:'INTERACT',    full:'Intl. Conference on HCI',              date:'Biennial (2027 next)', loc:'TBD',          cats:['HCI'],                   tier:null, fit:[]},
+  {n:'RecSys',      full:'Recommender Systems',                  date:'Sep 28–Oct 2', loc:'Minneapolis, USA',     cats:['HCI'],                   tier:null, fit:[]},
+  // ── XR ──
+  {n:'IEEE VR',     full:'VR & 3D User Interfaces',             date:'Mar 21–25',    loc:'Daegu, S. Korea',      cats:['XR','Haptics'],          tier:1, fit:['MR','Haptics','Deaf/HoH']},
+  {n:'ISMAR',       full:'Augmented & Mixed Reality',            date:'Oct 5–9',      loc:'Bari, Italy',          cats:['XR','Haptics'],          tier:1, fit:['MR','Deaf/HoH','Collab']},
+  {n:'SIGGRAPH',    full:'Computer Graphics & Interaction',      date:'Jul 19–23',    loc:'Los Angeles, USA',     cats:['XR'],                    tier:2, fit:['MR','Haptics']},
+  {n:'SIGGRAPH Asia',full:'Graphics & Interactive Tech.',        date:'Dec 1–4',      loc:'Kuala Lumpur, MY',     cats:['XR'],                    tier:null, fit:[]},
+  {n:'EuroVR',      full:'VR/AR Research & Industry',            date:'Dec (TBD)',    loc:'TBD',                  cats:['XR'],                    tier:null, fit:[]},
+  {n:'3DUI',        full:'3D User Interfaces (w/ IEEE VR)',      date:'Mar (w/ IEEE VR)', loc:'Daegu, S. Korea',  cats:['XR'],                    tier:null, fit:[]},
+  {n:'VRST',        full:'VR Systems & Technologies',            date:'Nov 16–18',    loc:'Sendai, Japan',        cats:['XR'],                    tier:3, fit:['MR','Collab']},
+  {n:'AWE',         full:'Augmented World Expo',                 date:'Jun (TBD)',    loc:'Long Beach, USA',      cats:['XR'],                    tier:null, fit:[]},
+  {n:'Laval Virtual',full:'VR / AR Innovation',                 date:'Apr (TBD)',    loc:'Laval, France',        cats:['XR'],                    tier:null, fit:[]},
+  {n:'IEEE VIS',    full:'Visualization & Visual Analytics',     date:'Oct (TBD)',    loc:'TBD',                  cats:['XR'],                    tier:null, fit:[]},
+  {n:'ILRN',        full:'Immersive Learning Research',          date:'Jun (TBD)',    loc:'TBD',                  cats:['XR'],                    tier:null, fit:[]},
+  {n:'ACM MM',      full:'Multimedia, AI & Immersive',           date:'Nov 10–14',    loc:'Rio de Janeiro, BR',   cats:['XR'],                    tier:null, fit:[]},
+  {n:'CHI PLAY',    full:'Games & Playable Media',               date:'Nov 2–5',      loc:'York, UK',             cats:['XR'],                    tier:null, fit:[]},
+  {n:'ICAT-EGVE',   full:'Core Technologies of Virtual Envs.',   date:'Dec (TBD)',    loc:'TBD',                  cats:['XR'],                    tier:null, fit:[]},
+  {n:'XR Expo',     full:'Enterprise XR Solutions',              date:'Apr (TBD)',    loc:'Stuttgart, Germany',   cats:['XR'],                    tier:null, fit:[]},
+  {n:'MetroXRAINE', full:'XR + AI Convergence',                  date:'Oct (TBD)',    loc:'TBD',                  cats:['XR'],                    tier:null, fit:[]},
+  {n:'WebXR',       full:'Web-based XR Technology',              date:'Fall (TBD)',   loc:'TBD',                  cats:['XR'],                    tier:null, fit:[]},
+  {n:'G4C',         full:'Games for Change Festival',            date:'Jun (TBD)',    loc:'New York, USA',        cats:['XR'],                    tier:null, fit:[]},
+  {n:'CES',         full:'XR Hardware & Future Tech',            date:'Jan 6–9',      loc:'Las Vegas, USA',       cats:['XR'],                    tier:null, fit:[]},
+  // ── HAPTICS ──
+  {n:'World Haptics',full:'Broad Haptics Research',             date:'Biennial (2027 next)', loc:'TBD',           cats:['Haptics'],               tier:null, fit:['Haptics']},
+  {n:'IEEE Haptics', full:'Haptic Interfaces & Systems',         date:'Mar 29–Apr 1', loc:'Reno, NV, USA',        cats:['Haptics'],               tier:null, fit:['Haptics','Deaf/HoH']},
+  {n:'EuroHaptics',  full:'EuroHaptics Conference',              date:'Jul 6–9',      loc:'Siena, Italy',         cats:['Haptics'],               tier:2, fit:['Haptics','Assistive Tech']},
+  {n:'AsiaHaptics',  full:'Haptics Research Asia',               date:'Nov (TBD)',    loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
+  {n:'IEEE WHC',     full:'Wearable Haptics & Systems',          date:'Jul (TBD)',    loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
+  {n:'IEEE RO-MAN',  full:'Human-Robot Interaction & Haptics',   date:'Aug (TBD)',    loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
+  {n:'ICRA',         full:'Robotics & Haptic Systems',           date:'Jun 1–5',      loc:'Vienna, Austria',      cats:['Haptics'],               tier:null, fit:[]},
+  {n:'IROS',         full:'Intelligent Robots & Systems',        date:'Sep 27–Oct 1', loc:'Pittsburgh, USA',      cats:['Haptics'],               tier:null, fit:[]},
+  {n:'EuroXR',       full:'XR + Tactile Technologies',           date:'Dec (TBD)',    loc:'TBD',                  cats:['Haptics','XR'],          tier:null, fit:[]},
+  {n:'IEEE Sensors', full:'Tactile Sensors & Systems',           date:'Oct (TBD)',    loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
+  {n:'BioRob',       full:'Medical Haptics & Robotics',          date:'Biennial (TBD)', loc:'TBD',               cats:['Haptics'],               tier:null, fit:[]},
+  {n:'HRI',          full:'Physical Human-Robot Interaction',    date:'Mar 16–19',    loc:'Edinburgh, UK',        cats:['Haptics'],               tier:2, fit:['Haptics','Assistive Tech']},
+  {n:'EMBC',         full:'Biomedical Eng. (Touch Systems)',      date:'Jul (TBD)',    loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
+  {n:'WearSys',      full:'Wearable Systems & Haptics',          date:'Varies (TBD)', loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
 ];
 
-/* ── ENRICH ───────────────────────────────────────────────────── */
-const MONTH_NUM = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
-function monthNum(d){
+/* ── JOURNAL DATA ────────────────────────────────────────────── */
+const JOURNALS = [
+  // HCI
+  {abbr:'ACM TOCHI',  full:'ACM Transactions on Computer-Human Interaction',          area:'HCI',          desc:'Premier HCI journal — flagship publication for human-computer interaction research.'},
+  {abbr:'IJHCS',      full:'Intl. Journal of Human-Computer Studies',                 area:'HCI',          desc:'Covers human-centered AI, UX research, and interactive systems.'},
+  {abbr:'HCI (T&F)',  full:'Human-Computer Interaction (Taylor & Francis)',            area:'HCI',          desc:'Established HCI journal with strong theoretical and empirical focus.'},
+  {abbr:'BIT',        full:'Behaviour & Information Technology',                       area:'HCI',          desc:'Applied HCI — real-world usability, ergonomics, and interaction design.'},
+  {abbr:'ACM TAP',    full:'ACM Transactions on Applied Perception',                  area:'HCI',          desc:'Perception science applied to HCI — visual, auditory, and haptic perception.'},
+  // XR
+  {abbr:'IEEE TVCG',  full:'IEEE Transactions on Visualization & Computer Graphics',  area:'XR',           desc:'Top journal for VR/AR/MR, rendering, and visualization — ISMAR/IEEE VR papers often published here.'},
+  {abbr:'Presence',   full:'Presence: Teleoperators and Virtual Environments (MIT)',   area:'XR',           desc:'Long-running journal on presence, immersion, and virtual environments.'},
+  {abbr:'Frontiers VR',full:'Frontiers in Virtual Reality',                           area:'XR',           desc:'Open-access journal covering VR/AR/MR systems and applications.'},
+  {abbr:'ACM TOG',    full:'ACM Transactions on Graphics',                            area:'XR',           desc:'Premier graphics journal — SIGGRAPH and SIGGRAPH Asia papers are published here.'},
+  // Haptics
+  {abbr:'IEEE ToH',   full:'IEEE Transactions on Haptics',                            area:'Haptics',      desc:'Leading journal for haptic interfaces, vibrotactile systems, and touch perception.'},
+  {abbr:'JMUI',       full:'Journal on Multimodal User Interfaces (Springer)',         area:'Haptics',      desc:'Covers multimodal interaction including haptic, auditory, and gestural systems.'},
+  // Accessibility
+  {abbr:'ACM TACCESS',full:'ACM Transactions on Accessible Computing',                area:'Accessibility',desc:'Most targeted journal for Deaf/HoH and assistive tech research — profile fit ★★★.'},
+  {abbr:'DR:AT',      full:'Disability and Rehabilitation: Assistive Technology',      area:'Accessibility',desc:'Clinical and technical AT research — Deaf/HoH, hearing devices, access tools.'},
+  // Ubicomp
+  {abbr:'IMWUT',      full:'Proc. ACM on Interactive, Mobile, Wearable & Ubiquitous', area:'Ubicomp',      desc:'ACM UbiComp proceedings journal — mobile, wearable, pervasive computing.'},
+  {abbr:'IEEE Pervasive',full:'IEEE Pervasive Computing',                             area:'Ubicomp',      desc:'Pervasive and embedded systems — smart environments, IoT, wearables.'},
+  {abbr:'PUC',        full:'Personal and Ubiquitous Computing (Springer)',             area:'Ubicomp',      desc:'Broad ubicomp journal — contextual computing, smart devices, ambient interaction.'},
+];
+
+/* ── ENRICH CONFERENCES ──────────────────────────────────────── */
+const MN={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+function mNum(d){
   if(!d) return 99;
   const s=d.toLowerCase();
-  if(s.includes('biennial')||s.includes('varies')) return 100;
-  for(const[k,v] of Object.entries(MONTH_NUM)) if(s.startsWith(k)) return v;
+  if(/biennial|varies/.test(s)) return 100;
+  for(const[k,v] of Object.entries(MN)) if(s.startsWith(k)) return v;
   if(s.includes('fall')) return 10;
   return 99;
 }
-function confirmed(d){
-  if(!d) return false;
-  if(/biennial|varies|tbd|fall|spring|summer|winter/i.test(d)) return false;
-  return /\d/.test(d);
-}
-function biennial(d){ return d&&/biennial|varies/i.test(d); }
-function season(m){
-  if(m>=3&&m<=5) return 'spring';
-  if(m>=6&&m<=8) return 'summer';
-  if(m>=9&&m<=11) return 'fall';
-  if(m===12||m<=2) return 'winter';
-  return null;
-}
-function region(loc){
+function isConf(d){ return d&&!/biennial|varies|tbd|fall|spring|summer|winter/i.test(d)&&/\d/.test(d); }
+function isBi(d){ return d&&/biennial|varies/i.test(d); }
+function getSeason(m){ return m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'fall':m===12||m<=2?'winter':null; }
+function getRegion(loc){
   if(!loc||loc==='TBD') return 'tbd';
   const l=loc.toLowerCase();
-  const USA=['usa','united states','las vegas','detroit','chicago','new york','los angeles','long beach','reno','pittsburgh','minneapolis','salt lake'];
-  const EU=['spain','uk','wales','italy','sweden','finland','france','germany','greece','portugal','scotland','edinburgh','austria','london','york','bari','napoli','siena','porto','gothenburg','vaasa','patras','vienna','swansea','barcelona','laval'];
-  const ASIA=['japan','korea','singapore','malaysia','cyprus','kuala','daegu','limassol','sendai','okinawa'];
-  if(USA.some(x=>l.includes(x))) return 'usa';
-  if(EU.some(x=>l.includes(x))) return 'europe';
-  if(ASIA.some(x=>l.includes(x))) return 'asia';
+  if(['usa','united states','las vegas','detroit','chicago','new york','los angeles','long beach','reno','pittsburgh','minneapolis','salt lake'].some(x=>l.includes(x))) return 'usa';
+  if(['spain','uk','wales','italy','sweden','finland','france','germany','greece','portugal','scotland','edinburgh','austria','london','york','bari','napoli','siena','porto','gothenburg','vaasa','patras','vienna','swansea','barcelona'].some(x=>l.includes(x))) return 'europe';
+  if(['japan','korea','singapore','malaysia','cyprus','kuala','daegu','limassol','sendai','okinawa'].some(x=>l.includes(x))) return 'asia';
   return 'other';
 }
-// Today is May 14 2026 → "soon" = next ~90 days = May/Jun/Jul
-function soon(m){ return m>=5&&m<=7; }
+const FLAG={usa:'🇺🇸',europe:'🌍',asia:'🌏',other:'🌎',tbd:'📍'};
+const MNAMES=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-const FLAG = {usa:'🇺🇸',europe:'🌍',asia:'🌏',other:'🌎',tbd:'📍'};
-
-const DATA = RAW.map(r=>{
-  const m=monthNum(r.date);
-  return{
-    ...r,
-    id:r.n.replace(/[^a-z0-9]/gi,'_'),
-    primary:r.cats[0],
-    monthNum:m,
-    confirmed:confirmed(r.date),
-    biennial:biennial(r.date),
-    season:season(m),
-    region:region(r.loc),
-    soon:soon(m)&&confirmed(r.date),
-    isBest:BEST.has(r.n),
-  };
+const DATA=RAW.map(r=>{
+  const m=mNum(r.date);
+  return{...r, id:r.n.replace(/[^a-z0-9]/gi,'_'), primary:r.cats[0],
+    monthNum:m, confirmed:isConf(r.date), biennial:isBi(r.date),
+    season:getSeason(m), region:getRegion(r.loc),
+    soon:(m>=5&&m<=7&&isConf(r.date)), isBest:BEST.has(r.n)};
 });
 
-/* ── STATE ─────────────────────────────────────────────────────── */
+/* ── STATE ───────────────────────────────────────────────────── */
 const S={
-  cats:new Set(['all']),
-  season:'all',
-  region:'all',
-  sort:'chrono',
-  q:'',
-  bestOnly:false,
-  confirmedOnly:false,
-  skip2027:false,
-  starredOnly:false,
-  view:'grid',
-  starred:new Set(JSON.parse(localStorage.getItem('tracker-starred')||'[]')),
+  cats:new Set(['all']), season:'all', region:'all', sort:'chrono',
+  tier:'all', q:'', bestOnly:false, confirmedOnly:false,
+  skip2027:false, starredOnly:false, view:'grid',
+  starred:new Set(JSON.parse(localStorage.getItem('tracker-v2-starred')||'[]')),
+  section:'conferences', jArea:'all',
 };
-function saveStarred(){ localStorage.setItem('tracker-starred',JSON.stringify([...S.starred])); }
+function saveStarred(){ localStorage.setItem('tracker-v2-starred',JSON.stringify([...S.starred])); }
 
-/* ── FILTER + SORT ─────────────────────────────────────────────── */
+/* ── FILTER ──────────────────────────────────────────────────── */
 function filtered(){
   let list=DATA.filter(d=>{
     if(S.starredOnly&&!S.starred.has(d.id)) return false;
     if(!S.cats.has('all')&&!d.cats.some(c=>S.cats.has(c))) return false;
     if(S.season!=='all'&&d.season!==S.season) return false;
     if(S.region!=='all'&&d.region!==S.region) return false;
+    if(S.tier!=='all'){
+      const t=S.tier==='none'?null:parseInt(S.tier);
+      if(d.tier!==t) return false;
+    }
     if(S.bestOnly&&!d.isBest) return false;
     if(S.confirmedOnly&&!d.confirmed) return false;
     if(S.skip2027&&d.biennial) return false;
     if(S.q){
       const q=S.q.toLowerCase();
-      if(!d.n.toLowerCase().includes(q)&&!d.full.toLowerCase().includes(q)&&!d.loc.toLowerCase().includes(q)) return false;
+      if(!d.n.toLowerCase().includes(q)&&!d.full.toLowerCase().includes(q)&&!d.loc.toLowerCase().includes(q)&&!d.fit.join(' ').toLowerCase().includes(q)) return false;
     }
     return true;
   });
-
-  const catOrder={HCI:0,XR:1,Haptics:2};
+  const catO={HCI:0,XR:1,Haptics:2};
   if(S.sort==='chrono') list.sort((a,b)=>a.monthNum-b.monthNum||(a.n<b.n?-1:1));
   else if(S.sort==='alpha') list.sort((a,b)=>a.n.localeCompare(b.n));
-  else if(S.sort==='cat') list.sort((a,b)=>catOrder[a.primary]-catOrder[b.primary]||a.monthNum-b.monthNum);
+  else if(S.sort==='cat') list.sort((a,b)=>catO[a.primary]-catO[b.primary]||a.monthNum-b.monthNum);
+  else if(S.sort==='tier') list.sort((a,b)=>(a.tier??99)-(b.tier??99)||a.monthNum-b.monthNum);
   else if(S.sort==='region') list.sort((a,b)=>a.region.localeCompare(b.region)||a.monthNum-b.monthNum);
   else if(S.sort==='confirmed') list.sort((a,b)=>(b.confirmed?1:0)-(a.confirmed?1:0)||a.monthNum-b.monthNum);
   return list;
 }
 
-/* ── RENDER HELPERS ────────────────────────────────────────────── */
-function catClass(d){ return d.primary==='HCI'?'hci':d.primary==='XR'?'xr':'hap'; }
-const MONTHS=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+/* ── RENDER HELPERS ──────────────────────────────────────────── */
+function cc(d){ return d.primary==='HCI'?'hci':d.primary==='XR'?'xr':'hap'; }
+function jcc(j){ return j.area==='HCI'?'hci':j.area==='XR'?'xr':j.area==='Haptics'?'hap':j.area==='Accessibility'?'acc':'ubi'; }
 
-function badgeHtml(d){
-  const cc=catClass(d);
-  let h='';
-  if(d.isBest) h+=`<span class="badge best">⭐ Best</span>`;
-  if(d.soon) h+=`<span class="badge soon-badge">Soon</span>`;
-  // show all cats as badges if multi-cat
-  d.cats.forEach(c=>{
-    const cl=c==='HCI'?'hci':c==='XR'?'xr':'hap';
-    h+=`<span class="badge ${cl}">${c}</span>`;
-  });
-  return h;
+function tierBadge(t){
+  if(!t) return '';
+  if(t===1) return '<span class="badge t1">T1</span>';
+  if(t===2) return '<span class="badge t2">T2</span>';
+  return '<span class="badge t3">T3</span>';
 }
 
 function cardHtml(d){
-  const cc=catClass(d);
-  const starred=S.starred.has(d.id);
-  const statusClass=d.biennial?'biennial':d.confirmed?'confirmed':'tbd';
-  const dateClass=d.confirmed?'meta-date':'meta-date tbd';
-  return`<article class="card ${cc}${d.soon?' soon':''}" role="listitem">
+  const c=cc(d), starred=S.starred.has(d.id);
+  const statusCls=d.biennial?'biennial':d.confirmed?'confirmed':'tbd';
+  return`<article class="card ${c}${d.soon?' soon':''}" role="listitem">
   <div class="card-hd">
     <div class="card-name">${d.n}</div>
-    <div class="card-actions">
-      <button class="star-btn${starred?' on':''}" data-id="${d.id}" aria-label="${starred?'Remove bookmark':'Bookmark'}" title="Bookmark">${starred?'★':'☆'}</button>
-    </div>
+    <button class="star-btn${starred?' on':''}" data-id="${d.id}" aria-label="${starred?'Remove bookmark':'Bookmark'}">${starred?'★':'☆'}</button>
   </div>
-  <div class="badges">${badgeHtml(d)}</div>
+  <div class="badges">
+    ${d.isBest?'<span class="badge best">⭐ Best</span>':''}
+    ${tierBadge(d.tier)}
+    ${d.soon?'<span class="badge soon-b">Soon</span>':''}
+    ${d.cats.map(c=>`<span class="badge ${c==='HCI'?'hci':c==='XR'?'xr':'hap'}">${c}</span>`).join('')}
+  </div>
   <div class="card-focus">${d.full}</div>
+  ${d.fit.length?`<div class="fit-tags">${d.fit.map(f=>`<span class="fit-tag">${f}</span>`).join('')}</div>`:''}
   <div class="card-meta">
-    <div class="meta-row">
-      <div class="meta-dot ${statusClass}"></div>
-      <span class="${dateClass}">${d.date}</span>
-    </div>
-    <div class="meta-row">
-      <span style="font-size:14px">${FLAG[d.region]}</span>
-      <span class="meta-loc">${d.loc}</span>
-    </div>
+    <div class="meta-row"><div class="meta-dot ${statusCls}"></div><span class="meta-date${d.confirmed?'':' tbd'}">${d.date}</span></div>
+    <div class="meta-row"><span style="font-size:14px">${FLAG[d.region]}</span><span class="meta-loc">${d.loc}</span></div>
   </div>
 </article>`;
 }
 
-function tlItemHtml(d){
-  const cc=catClass(d);
+function tlHtml(d){
+  const c=cc(d);
   return`<div class="tl-item">
-  <div class="tl-dot ${cc}"></div>
+  <div class="tl-dot ${c}"></div>
   <div class="tl-body">
-    <div class="tl-name">${d.n} ${d.isBest?'<span class="badge best" style="font-size:9px">⭐ Best</span>':''} ${d.cats.map(c=>`<span class="badge ${c==='HCI'?'hci':c==='XR'?'xr':'hap'}" style="font-size:9px">${c}</span>`).join('')}</div>
+    <div class="tl-name">${d.n} ${d.isBest?'<span class="badge best" style="font-size:9px">⭐</span>':''} ${tierBadge(d.tier)} ${d.cats.map(c=>`<span class="badge ${c==='HCI'?'hci':c==='XR'?'xr':'hap'}" style="font-size:9px">${c}</span>`).join('')}</div>
     <div class="tl-focus">${d.full}</div>
   </div>
   <div class="tl-right">
@@ -774,85 +611,83 @@ function tlItemHtml(d){
 </div>`;
 }
 
-/* ── RENDER ────────────────────────────────────────────────────── */
+function journalCardHtml(j){
+  const c=jcc(j);
+  const areaBadgeClass=j.area==='HCI'?'hci':j.area==='XR'?'xr':j.area==='Haptics'?'hap':j.area==='Accessibility'?'acc':'ubi';
+  return`<article class="jcard ${c}" role="listitem">
+  <div class="jcard-abbrev">${j.abbr}</div>
+  <div class="jbadges"><span class="badge ${areaBadgeClass}">${j.area}</span></div>
+  <div class="jcard-name">${j.full}</div>
+  <div class="jcard-desc">${j.desc}</div>
+</article>`;
+}
+
+/* ── RENDER ──────────────────────────────────────────────────── */
 function render(){
   const list=filtered();
-  // Stats
   const conf=list.filter(d=>d.confirmed).length;
   const countries=new Set(list.map(d=>d.loc.split(',').pop().trim()).filter(l=>l&&l!=='TBD')).size;
   document.getElementById('statText').innerHTML=
-    `<strong class="stat-num">${list.length}</strong> of ${DATA.length} conferences
-     <span class="stat-sep">·</span>
-     <strong class="stat-num">${conf}</strong> confirmed
-     <span class="stat-sep">·</span>
-     <strong class="stat-num">${countries}</strong> countries`;
+    `<strong class="stat-num">${list.length}</strong> of ${DATA.length}
+     <span class="stat-sep">·</span> <strong class="stat-num">${conf}</strong> confirmed
+     <span class="stat-sep">·</span> <strong class="stat-num">${countries}</strong> countries`;
 
-  if(S.view==='grid') renderGrid(list);
-  else renderTimeline(list);
+  S.view==='grid'?renderGrid(list):renderTimeline(list);
 }
 
 function renderGrid(list){
   const el=document.getElementById('gridView');
-  if(!list.length){
-    el.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><h3>No conferences match</h3><p>Try adjusting your filters or search</p></div>`;
-    return;
-  }
+  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><h3>No conferences match</h3><p>Try adjusting your filters</p></div>';return;}
   el.innerHTML=list.map(cardHtml).join('');
 }
 
 function renderTimeline(list){
   const el=document.getElementById('timelineView');
-  if(!list.length){
-    el.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><h3>No conferences match</h3><p>Try adjusting your filters</p></div>`;
-    return;
-  }
-  const byMonth={};
-  const tbdList=[];
-  list.forEach(d=>{
-    if(d.monthNum>=99){tbdList.push(d);return;}
-    if(!byMonth[d.monthNum]) byMonth[d.monthNum]=[];
-    byMonth[d.monthNum].push(d);
-  });
+  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><h3>No conferences match</h3></div>';return;}
+  const byM={}, tbd=[];
+  list.forEach(d=>{ if(d.monthNum>=99){tbd.push(d);return;} if(!byM[d.monthNum]) byM[d.monthNum]=[]; byM[d.monthNum].push(d); });
   let html='';
-  Object.keys(byMonth).sort((a,b)=>a-b).forEach(m=>{
-    const items=byMonth[m];
-    html+=`<div class="tl-month">
-      <div class="tl-month-hd">
-        <div class="tl-month-name">${MONTHS[m]}</div>
-        <div class="tl-rule"></div>
-        <div class="tl-count">${items.length}</div>
-      </div>
-      ${items.map(tlItemHtml).join('')}
-    </div>`;
+  Object.keys(byM).sort((a,b)=>a-b).forEach(m=>{
+    const items=byM[m];
+    html+=`<div class="tl-month"><div class="tl-month-hd"><div class="tl-month-name">${MNAMES[m]}</div><div class="tl-rule"></div><div class="tl-count">${items.length}</div></div>${items.map(tlHtml).join('')}</div>`;
   });
-  if(tbdList.length){
-    html+=`<div class="tl-month">
-      <div class="tl-month-hd">
-        <div class="tl-month-name" style="color:var(--fg-dim)">TBD</div>
-        <div class="tl-rule"></div>
-        <div class="tl-count">${tbdList.length}</div>
-      </div>
-      ${tbdList.map(d=>`<div style="opacity:.55">${tlItemHtml(d)}</div>`).join('')}
-    </div>`;
-  }
+  if(tbd.length) html+=`<div class="tl-month"><div class="tl-month-hd"><div class="tl-month-name" style="color:var(--fg-dim)">TBD</div><div class="tl-rule"></div><div class="tl-count">${tbd.length}</div></div>${tbd.map(d=>`<div style="opacity:.5">${tlHtml(d)}</div>`).join('')}</div>`;
   el.innerHTML=html;
 }
 
-/* ── EVENTS ─────────────────────────────────────────────────────── */
+function renderJournals(){
+  const el=document.getElementById('journalsGrid');
+  const list=S.jArea==='all'?JOURNALS:JOURNALS.filter(j=>j.area===S.jArea);
+  el.innerHTML=list.length?list.map(journalCardHtml).join(''):'<div class="empty"><div class="empty-icon">🔍</div><h3>No journals match</h3></div>';
+}
+
+/* ── EVENTS ──────────────────────────────────────────────────── */
+// Main tabs
+document.querySelectorAll('.main-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    S.section=btn.dataset.section;
+    document.querySelectorAll('.main-tab').forEach(b=>{b.classList.toggle('active',b.dataset.section===S.section);b.setAttribute('aria-selected',b.dataset.section===S.section);});
+    document.getElementById('conferencesSection').style.display=S.section==='conferences'?'':'none';
+    document.getElementById('journalsSection').style.display=S.section==='journals'?'':'none';
+    if(S.section==='journals') renderJournals();
+  });
+});
+
 // Category chips
 document.getElementById('catChips').addEventListener('click',e=>{
   const btn=e.target.closest('.chip');if(!btn) return;
   const cat=btn.dataset.cat;
   if(cat==='all'){S.cats=new Set(['all']);}
-  else{
-    S.cats.delete('all');
-    S.cats.has(cat)?S.cats.delete(cat):S.cats.add(cat);
-    if(!S.cats.size) S.cats.add('all');
-  }
-  document.querySelectorAll('#catChips .chip').forEach(b=>{
-    const c=b.dataset.cat;
-    b.classList.toggle('active',c==='all'?S.cats.has('all'):S.cats.has(c));
-  });
+  else{S.cats.delete('all');S.cats.has(cat)?S.cats.delete(cat):S.cats.add(cat);if(!S.cats.size) S.cats.add('all');}
+  document.querySelectorAll('#catChips .chip').forEach(b=>{const c=b.dataset.cat;b.classList.toggle('active',c==='all'?S.cats.has('all'):S.cats.has(c));});
+  render();
+});
+
+// Tier chips
+document.getElementById('tierChips').addEventListener('click',e=>{
+  const btn=e.target.closest('.chip');if(!btn) return;
+  S.tier=btn.dataset.tier;
+  document.querySelectorAll('#tierChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.tier===S.tier));
   render();
 });
 
@@ -868,19 +703,21 @@ document.getElementById('regionSel').addEventListener('change',e=>{S.region=e.ta
 document.getElementById('sortSel').addEventListener('change',e=>{S.sort=e.target.value;render();});
 document.getElementById('search').addEventListener('input',e=>{S.q=e.target.value;render();});
 
-function toggle(btnId,key){
-  document.getElementById(btnId).addEventListener('click',function(){
-    S[key]=!S[key];
-    this.classList.toggle('active',S[key]);
+function toggle(id,key){ document.getElementById(id).addEventListener('click',function(){S[key]=!S[key];this.classList.toggle('active',S[key]);render();}); }
+toggle('btnBest','bestOnly');toggle('btnConfirmed','confirmedOnly');toggle('btnSkip','skip2027');toggle('btnStarred','starredOnly');
+
+// View pills
+document.querySelectorAll('.view-pill').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    S.view=btn.dataset.view;
+    document.querySelectorAll('.view-pill').forEach(b=>b.classList.toggle('active',b.dataset.view===S.view));
+    document.getElementById('gridView').style.display=S.view==='grid'?'':'none';
+    document.getElementById('timelineView').style.display=S.view==='timeline'?'':'none';
     render();
   });
-}
-toggle('btnBest','bestOnly');
-toggle('btnConfirmed','confirmedOnly');
-toggle('btnSkip','skip2027');
-toggle('btnStarred','starredOnly');
+});
 
-// Star click (grid)
+// Star
 document.getElementById('gridView').addEventListener('click',e=>{
   const btn=e.target.closest('.star-btn');if(!btn) return;
   const id=btn.dataset.id;
@@ -888,23 +725,7 @@ document.getElementById('gridView').addEventListener('click',e=>{
   saveStarred();
   btn.classList.toggle('on',S.starred.has(id));
   btn.textContent=S.starred.has(id)?'★':'☆';
-  btn.setAttribute('aria-label',S.starred.has(id)?'Remove bookmark':'Bookmark');
-  if(S.starred.has(id)) btn.style.animation='none',btn.offsetHeight,btn.style.animation='';
   if(S.starredOnly) render();
-});
-
-// View pills
-document.querySelectorAll('.view-pill').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    S.view=btn.dataset.view;
-    document.querySelectorAll('.view-pill').forEach(b=>{
-      b.classList.toggle('active',b.dataset.view===S.view);
-      b.setAttribute('aria-pressed',b.dataset.view===S.view);
-    });
-    document.getElementById('gridView').style.display=S.view==='grid'?'':'none';
-    document.getElementById('timelineView').style.display=S.view==='timeline'?'':'none';
-    render();
-  });
 });
 
 // Theme
@@ -916,31 +737,20 @@ document.getElementById('themeBtn').addEventListener('click',function(){
 
 // Copy
 document.getElementById('copyBtn').addEventListener('click',()=>{
-  const text=filtered().map(d=>`${d.n} | ${d.full} | ${d.date} | ${d.loc} [${d.cats.join('+')}]`).join('\n');
+  const text=filtered().map(d=>`${d.n} | ${d.full} | ${d.date} | ${d.loc} [${d.cats.join('+')}]${d.tier?` T${d.tier}`:''}${d.fit.length?' | '+d.fit.join(', '):''}`).join('\n');
   navigator.clipboard.writeText(text).then(()=>toast('Copied to clipboard'));
 });
 
-// Journals toggle
-(()=>{
-  const hd=document.getElementById('journalsToggle');
-  const body=document.getElementById('journalsBody');
-  const arr=document.getElementById('journalArrow');
-  let open=false;
-  hd.addEventListener('click',()=>{
-    open=!open;
-    body.classList.toggle('open',open);
-    arr.style.transform=open?'rotate(180deg)':'';
-    hd.setAttribute('aria-expanded',open);
-  });
-  hd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}});
-})();
+// Journal area chips
+document.getElementById('jAreaChips').addEventListener('click',e=>{
+  const btn=e.target.closest('.chip');if(!btn) return;
+  S.jArea=btn.dataset.ja;
+  document.querySelectorAll('#jAreaChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.ja===S.jArea));
+  renderJournals();
+});
 
 // Toast
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2000);
-}
+function toast(msg){ const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2000); }
 
 render();
 </script>
