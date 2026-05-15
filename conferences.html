@@ -138,6 +138,7 @@ button{cursor:pointer;border:none;background:none}
 .chip.fit[data-fit="MR"].active{background:var(--xr)}
 .chip.fit[data-fit="XR Access"].active{background:var(--ubi)}
 .chip.fit[data-fit="Collab"].active{background:var(--gold)}
+.chip.fit[data-fit="Cybersickness"].active{background:#ef4444;color:#fff}
 .chip.fit[data-fit="Haptics"].active{background:var(--hap)}
 .chip-divider{width:1px;height:20px;background:var(--rule);margin:0 4px;align-self:center;flex-shrink:0}
 .chip.neutral.active,.chip.toggle.active,.chip.tier-chip.active{background:var(--fg-mute);color:var(--ink)}
@@ -210,6 +211,12 @@ main{padding:20px 24px 56px}
 .badge.t1{background:rgba(251,191,36,.15);color:var(--t1);border:1px solid rgba(251,191,36,.3)}
 .badge.t2{background:rgba(56,189,248,.1);color:var(--t2);border:1px solid rgba(56,189,248,.2)}
 .badge.t3{background:rgba(136,136,170,.1);color:var(--t3);border:1px solid rgba(136,136,170,.2)}
+.badge.if-badge{background:rgba(74,222,128,.1);color:var(--go);border:1px solid rgba(74,222,128,.25);text-transform:none;letter-spacing:.2px;font-variant-numeric:tabular-nums}
+.badge.q-q1{background:rgba(251,191,36,.15);color:var(--gold);border:1px solid rgba(251,191,36,.3)}
+.badge.q-q2{background:rgba(56,189,248,.1);color:var(--t2);border:1px solid rgba(56,189,248,.25)}
+.badge.q-q3{background:rgba(167,139,250,.1);color:#c4b5fd;border:1px solid rgba(167,139,250,.25)}
+.badge.q-q4{background:rgba(136,136,170,.1);color:var(--fg-mute);border:1px solid rgba(136,136,170,.2)}
+.badge.country-badge{background:var(--ink3);color:var(--fg);border:1px solid var(--rule);text-transform:none;letter-spacing:.2px}
 
 .card-focus{font-size:12.5px;color:var(--fg-mute);font-style:italic;font-weight:300;margin-bottom:8px;line-height:1.4}
 .fit-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
@@ -380,6 +387,7 @@ main{padding:20px 24px 56px}
       <span class="hero-label">Profile</span>
       <span class="hero-pill profile">Deaf/HoH</span>
       <span class="hero-pill profile">Mixed Reality</span>
+      <span class="hero-pill profile">Cybersickness ⚡</span>
       <span class="hero-pill profile">Assistive Tech</span>
       <span class="hero-pill profile">Collaboration</span>
     </div>
@@ -444,8 +452,10 @@ main{padding:20px 24px 56px}
         <ul>
           <li><strong>Core cluster:</strong> ASSETS → CHI → ISMAR → CSCW covers every dimension of your profile.</li>
           <li><strong>Deaf/HoH + MR:</strong> Same work, two framings — technical to IEEE VR / ISMAR; user-centred to ASSETS / CHI.</li>
+          <li><strong>Cybersickness in VR:</strong> Journals → Virtual Reality (Springer, IF 5.0), Frontiers in VR (Q1), Displays (Q2). Conferences → IEEE VR, ISMAR, VRST (cybersickness sessions exist).</li>
           <li><strong>Haptics for Deaf/HoH:</strong> TEI, EuroHaptics, and IEEE ToH are ideal for vibrotactile work.</li>
-          <li><strong>Top journal pick:</strong> ACM TACCESS for Deaf/HoH; IEEE ToH for haptic systems.</li>
+          <li><strong>Top journal pick:</strong> ACM TACCESS for Deaf/HoH; IEEE ToH for haptic systems; Virtual Reality (Springer) for cybersickness.</li>
+          <li><strong>Regional venues:</strong> IndiaHCI (Oct, Hyderabad) for accessibility-Asia network; VRST (Sendai) + AsiaHaptics (Incheon) for Asia-Pacific haptics-VR loop.</li>
         </ul>
       </div>
     </div>
@@ -475,6 +485,7 @@ main{padding:20px 24px 56px}
         <button class="chip fit" data-fit="MR">Mixed Reality</button>
         <button class="chip fit" data-fit="XR Access">XR Access</button>
         <button class="chip fit" data-fit="Collab">Collaboration</button>
+        <button class="chip fit" data-fit="Cybersickness">Cybersickness ⚡</button>
         <button class="chip fit" data-fit="Haptics">Haptics-focused</button>
       </div>
     </div>
@@ -498,6 +509,8 @@ main{padding:20px 24px 56px}
       </div>
       <select class="ctrl-select" id="regionSel">
         <option value="all">All regions</option>
+        <option value="india">🇮🇳 India</option>
+        <option value="japan">🇯🇵 Japan</option>
         <option value="usa">🇺🇸 USA</option>
         <option value="europe">🌍 Europe</option>
         <option value="asia">🌏 Asia–Pacific</option>
@@ -569,12 +582,36 @@ main{padding:20px 24px 56px}
         <option value="area">Sort: by Area</option>
         <option value="alpha">Sort: A → Z</option>
         <option value="deadline">Sort: Upcoming deadline</option>
+        <option value="if">Sort: Impact Factor ↓</option>
       </select>
+      <select class="ctrl-select" id="jCountrySel" aria-label="Filter by country">
+        <option value="all">All countries</option>
+        <option value="USA">🇺🇸 USA</option>
+        <option value="UK">🇬🇧 UK</option>
+        <option value="Germany">🇩🇪 Germany (Springer)</option>
+        <option value="Switzerland">🇨🇭 Switzerland</option>
+        <option value="Japan">🇯🇵 Japan</option>
+        <option value="India">🇮🇳 India</option>
+      </select>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Fit</span>
+      <div class="chips" id="jFitChips" role="group" aria-label="Research-fit filter">
+        <button class="chip neutral active" data-jfit="all">All</button>
+        <button class="chip fit" data-jfit="Deaf/HoH">Deaf/HoH</button>
+        <button class="chip fit" data-jfit="Assistive Tech">Assistive Tech</button>
+        <button class="chip fit" data-jfit="MR">Mixed Reality</button>
+        <button class="chip fit" data-jfit="XR Access">XR Access</button>
+        <button class="chip fit" data-jfit="Collab">Collaboration</button>
+        <button class="chip fit" data-jfit="Cybersickness">Cybersickness ⚡</button>
+        <button class="chip fit" data-jfit="Haptics">Haptics</button>
+      </div>
     </div>
     <div class="ctrl-row">
       <span class="ctrl-label">Show</span>
       <div class="chips" role="group">
         <button class="chip toggle" id="btnJSoon">Soon deadline</button>
+        <button class="chip toggle" id="btnJQ1">Q1 only</button>
       </div>
     </div>
   </div>
@@ -603,26 +640,31 @@ const RAW = [
   {n:'TEI',         full:'Tangible, Embedded & Embodied',        date:'Mar 8–11',     loc:'Chicago, IL, USA',     cats:['HCI','Haptics'],          tier:2, fit:['Haptics','Assistive Tech']},
   {n:'MobileHCI',   full:'Mobile HCI',                          date:'Aug 31–Sep 3', loc:'Swansea, Wales',       cats:['HCI'],                   tier:null, fit:[]},
   {n:'UbiComp',     full:'Ubiquitous Computing',                 date:'Sep (TBD)',    loc:'TBD',                  cats:['HCI'],                   tier:null, fit:[]},
-  {n:'SUI',         full:'Spatial User Interaction',             date:'Oct 10–11',    loc:'Bari, Italy',          cats:['XR','HCI','Haptics'],     tier:2, fit:['MR','Collab','Haptics']},
+  {n:'SUI',         full:'Spatial User Interaction',             date:'Oct 10–11',    loc:'Bari, Italy',          cats:['XR','HCI','Haptics'],     tier:2, fit:['MR','Collab','Haptics','Cybersickness']},
   {n:'ISS',         full:'Interactive Surfaces & Spaces',        date:'Nov (TBD)',    loc:'TBD',                  cats:['HCI'],                   tier:null, fit:[]},
   {n:'ASSETS',      full:'Accessibility & Assistive Technology', date:'Oct 25–28',    loc:'Porto, Portugal',      cats:['HCI'],                   tier:1, fit:['Deaf/HoH','Assistive Tech','XR Access']},
   {n:'C&C',         full:'Creativity & Cognition',               date:'Jul 1–4',      loc:'London, UK',           cats:['HCI'],                   tier:null, fit:[]},
   {n:'ICMI',        full:'Multimodal Interaction',               date:'Oct 5–9',      loc:'Napoli, Italy',        cats:['HCI'],                   tier:2, fit:['Deaf/HoH','Haptics','MR']},
   {n:'AutoUI',      full:'Automotive User Interfaces',           date:'Sep 20–23',    loc:'Gothenburg, Sweden',   cats:['HCI'],                   tier:null, fit:[]},
   {n:'HCI Intl',    full:'International HCI Conference',         date:'Jul (TBD)',    loc:'Montreal, Canada',     cats:['HCI'],                   tier:null, fit:[]},
-  {n:'AH',          full:'Augmented Humans',                     date:'Mar 16–19',    loc:'Okinawa, Japan',       cats:['HCI','XR'],              tier:null, fit:['MR']},
+  {n:'AH',          full:'Augmented Humans',                     date:'Mar 16–19',    loc:'Okinawa, Japan',       cats:['HCI','XR'],              tier:2, fit:['MR','Cybersickness']},
   {n:'EICS',        full:'Eng. Interactive Computing Systems',   date:'Jun 30–Jul 3', loc:'Patras, Greece',       cats:['HCI'],                   tier:null, fit:[]},
   {n:'NordiCHI',    full:'Nordic HCI Conference',                date:'Oct 3–4',      loc:'Vaasa, Finland',       cats:['HCI'],                   tier:null, fit:[]},
   {n:'INTERACT',    full:'Intl. Conference on HCI',              date:'Biennial (2027 next)', loc:'TBD',          cats:['HCI'],                   tier:null, fit:[]},
   {n:'RecSys',      full:'Recommender Systems',                  date:'Sep 28–Oct 2', loc:'Minneapolis, USA',     cats:['HCI'],                   tier:null, fit:[]},
+  // ── INDIA / JAPAN / REGIONAL ──
+  {n:'IndiaHCI',    full:'India HCI — Designing for Dignity',    date:'Oct 29–31',    loc:'Hyderabad, India',     cats:['HCI'],                   tier:2, fit:['Deaf/HoH','Assistive Tech','Collab']},
+  {n:'ICVGIP',      full:'Computer Vision, Graphics & Image Processing', date:'Dec 21–24', loc:'Kolkata, India',  cats:['XR','HCI'],              tier:3, fit:['MR']},
+  {n:'HCII',        full:'HCI International — multidisciplinary HCI', date:'Jun 22–27', loc:'Gothenburg, Sweden', cats:['HCI'],                   tier:3, fit:['Deaf/HoH','Assistive Tech','Collab']},
+  {n:'WISS',        full:'Workshop on Interactive Systems & Software', date:'Dec (TBD)', loc:'Japan (TBD)',       cats:['HCI'],                   tier:3, fit:['MR','Haptics']},
   // ── XR ──
-  {n:'IEEE VR',     full:'VR & 3D User Interfaces',             date:'Mar 21–25',    loc:'Daegu, S. Korea',      cats:['XR','Haptics'],          tier:1, fit:['MR','Haptics','Deaf/HoH']},
-  {n:'ISMAR',       full:'Augmented & Mixed Reality',            date:'Oct 5–9',      loc:'Bari, Italy',          cats:['XR','Haptics'],          tier:1, fit:['MR','Deaf/HoH','Collab']},
+  {n:'IEEE VR',     full:'VR & 3D User Interfaces',             date:'Mar 21–25',    loc:'Daegu, S. Korea',      cats:['XR','Haptics'],          tier:1, fit:['MR','Haptics','Deaf/HoH','Cybersickness']},
+  {n:'ISMAR',       full:'Augmented & Mixed Reality',            date:'Oct 5–9',      loc:'Bari, Italy',          cats:['XR','Haptics'],          tier:1, fit:['MR','Deaf/HoH','Collab','Cybersickness']},
   {n:'SIGGRAPH',    full:'Computer Graphics & Interaction',      date:'Jul 19–23',    loc:'Los Angeles, USA',     cats:['XR'],                    tier:2, fit:['MR','Haptics']},
   {n:'SIGGRAPH Asia',full:'Graphics & Interactive Tech.',        date:'Dec 1–4',      loc:'Kuala Lumpur, MY',     cats:['XR'],                    tier:null, fit:[]},
   {n:'EuroVR',      full:'VR/AR Research & Industry',            date:'Dec (TBD)',    loc:'TBD',                  cats:['XR'],                    tier:null, fit:[]},
   {n:'3DUI',        full:'3D User Interfaces (w/ IEEE VR)',      date:'Mar (w/ IEEE VR)', loc:'Daegu, S. Korea',  cats:['XR'],                    tier:null, fit:[]},
-  {n:'VRST',        full:'VR Systems & Technologies',            date:'Nov 16–18',    loc:'Sendai, Japan',        cats:['XR'],                    tier:3, fit:['MR','Collab']},
+  {n:'VRST',        full:'VR Systems & Technologies',            date:'Nov 16–18',    loc:'Sendai, Japan',        cats:['XR'],                    tier:2, fit:['MR','Collab','Cybersickness']},
   {n:'AWE',         full:'Augmented World Expo',                 date:'Jun (TBD)',    loc:'Long Beach, USA',      cats:['XR'],                    tier:null, fit:[]},
   {n:'Laval Virtual',full:'VR / AR Innovation',                 date:'Apr (TBD)',    loc:'Laval, France',        cats:['XR'],                    tier:null, fit:[]},
   {n:'IEEE VIS',    full:'Visualization & Visual Analytics',     date:'Oct (TBD)',    loc:'TBD',                  cats:['XR'],                    tier:null, fit:[]},
@@ -639,7 +681,7 @@ const RAW = [
   {n:'World Haptics',full:'Broad Haptics Research',             date:'Biennial (2027 next)', loc:'TBD',           cats:['Haptics'],               tier:null, fit:['Haptics']},
   {n:'IEEE Haptics', full:'Haptic Interfaces & Systems',         date:'Mar 29–Apr 1', loc:'Reno, NV, USA',        cats:['Haptics'],               tier:null, fit:['Haptics','Deaf/HoH']},
   {n:'EuroHaptics',  full:'EuroHaptics Conference',              date:'Jul 6–9',      loc:'Siena, Italy',         cats:['Haptics'],               tier:2, fit:['Haptics','Assistive Tech']},
-  {n:'AsiaHaptics',  full:'Haptics Research Asia',               date:'Nov (TBD)',    loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
+  {n:'AsiaHaptics',  full:'Haptics Research Asia',               date:'Nov 17–20',    loc:'Incheon, S. Korea',    cats:['Haptics'],               tier:3, fit:['Haptics']},
   {n:'IEEE WHC',     full:'Wearable Haptics & Systems',          date:'Jul (TBD)',    loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
   {n:'IEEE RO-MAN',  full:'Human-Robot Interaction & Haptics',   date:'Aug (TBD)',    loc:'TBD',                  cats:['Haptics'],               tier:null, fit:[]},
   {n:'ICRA',         full:'Robotics & Haptic Systems',           date:'Jun 1–5',      loc:'Vienna, Austria',      cats:['Haptics'],               tier:null, fit:[]},
@@ -659,33 +701,48 @@ const RAW = [
 const JOURNALS = [
   // ── HCI ──
   { abbr:'ACM TOCHI', full:'ACM Transactions on Computer-Human Interaction', area:'HCI',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:5.4, q:'Q1', country:'USA', fit:['Assistive Tech','Deaf/HoH','Collab'],
     cycles:[{label:'Submissions open year-round',dot:'rolling',note:'~8–12 week review cycle. Published quarterly.'}],
-    desc:'Premier HCI journal — flagship publication for human-computer interaction research.'},
+    desc:'★ Premier HCI journal — flagship publication for human-computer interaction research.'},
 
   { abbr:'IJHCS', full:'Intl. Journal of Human-Computer Studies', area:'HCI',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:5.4, q:'Q1', country:'UK', fit:['Assistive Tech','Collab'],
     cycles:[{label:'Rolling — Elsevier continuous review',dot:'rolling',note:'Typically 3–6 month turnaround.'}],
-    desc:'Covers human-centered AI, UX research, and interactive systems.'},
+    desc:'Covers human-centered AI, UX research, interactive systems, accessibility, VR/AR/MR.'},
 
   { abbr:'HCI (T&F)', full:'Human-Computer Interaction (Taylor & Francis)', area:'HCI',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:4.3, q:'Q1', country:'UK', fit:['Collab','Assistive Tech'],
     cycles:[{label:'Rolling — Taylor & Francis',dot:'rolling',note:'Submit any time via ScholarOne.'}],
     desc:'Established HCI journal with strong theoretical and empirical focus.'},
 
   { abbr:'BIT', full:'Behaviour & Information Technology', area:'HCI',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:3.1, q:'Q1', country:'UK', fit:['Assistive Tech','Collab'],
     cycles:[{label:'Rolling — Taylor & Francis',dot:'rolling',note:'Applied HCI; fast-track option available.'}],
-    desc:'Applied HCI — real-world usability, ergonomics, and interaction design.'},
+    desc:'Applied HCI — Q1 in HCI / social-sci. Usability, ergonomics, accessibility.'},
+
+  { abbr:'IJHCI', full:'International Journal of Human-Computer Interaction (T&F)', area:'HCI',
+    submissionType:'rolling', nextDeadline:null, if:4.7, q:'Q1', country:'UK', fit:['Cybersickness','Assistive Tech','MR'],
+    cycles:[{label:'Rolling — Taylor & Francis',dot:'rolling',note:'Strong cybersickness solutions track; cognitive/social/ergonomic HCI.'}],
+    desc:'★ Cognitive, social, ergonomic HCI — frequent venue for cybersickness mitigation papers.'},
+
+  { abbr:'CHB', full:'Computers in Human Behavior (Elsevier)', area:'HCI',
+    submissionType:'rolling', nextDeadline:null, if:9.0, q:'Q1', country:'UK', fit:['Cybersickness','Collab'],
+    cycles:[{label:'Rolling — Elsevier',dot:'rolling',note:'High IF; psychological dimensions of computing.'}],
+    desc:'High-impact behavioral computing journal — VR cybersickness predictors, social-VR.'},
+
+  { abbr:'Applied Ergonomics', full:'Applied Ergonomics (Elsevier)', area:'HCI',
+    submissionType:'rolling', nextDeadline:null, if:3.3, q:'Q1', country:'UK', fit:['Cybersickness','Assistive Tech'],
+    cycles:[{label:'Rolling — Elsevier',dot:'rolling',note:'Workplace ergonomics + VR HMD ergonomics.'}],
+    desc:'Ergonomics — VR ergonomic factors driving cybersickness; HMD fit, IPD, visual fatigue.'},
 
   { abbr:'ACM TAP', full:'ACM Transactions on Applied Perception', area:'HCI',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:1.6, q:'Q3', country:'USA', fit:['Cybersickness','Haptics'],
     cycles:[{label:'Rolling submissions',dot:'rolling',note:'Published quarterly by ACM.'}],
     desc:'Perception science applied to HCI — visual, auditory, and haptic perception.'},
 
   // ── XR ──
   { abbr:'IEEE TVCG', full:'IEEE Transactions on Visualization & Computer Graphics', area:'XR',
-    submissionType:'special', nextDeadline:'2026-08-15',
+    submissionType:'special', nextDeadline:'2026-08-15', if:5.0, q:'Q1', country:'USA', fit:['MR','Cybersickness','Collab'],
     cycles:[
       {label:'IEEE VR 2026 special issue — deadline passed (Sep 2025)',dot:'special',note:'Results presented at IEEE VR Mar 2026.'},
       {label:'ISMAR 2026 special issue — ~May 2026',dot:'special',note:'Accepted papers presented at ISMAR Oct 2026.'},
@@ -694,18 +751,28 @@ const JOURNALS = [
     ],
     desc:'Top journal for VR/AR/MR — IEEE VR, ISMAR, and IEEE VIS papers are published here as special issues.'},
 
-  { abbr:'Presence', full:'Presence: Teleoperators and Virtual Environments', area:'XR',
-    submissionType:'rolling', nextDeadline:null,
-    cycles:[{label:'Rolling — MIT Press',dot:'rolling',note:'One of the oldest XR/VR journals; continuous submissions.'}],
-    desc:'Long-running journal on presence, immersion, and virtual environments.'},
-
   { abbr:'Frontiers VR', full:'Frontiers in Virtual Reality', area:'XR',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:4.0, q:'Q1', country:'Switzerland', fit:['Cybersickness','MR'],
     cycles:[{label:'Rolling — open access, continuous',dot:'rolling',note:'Fast peer review (~60 days avg). Open access.'}],
-    desc:'Open-access journal covering VR/AR/MR systems and applications.'},
+    desc:'★ Top open-access VR journal. Editor Mel Slater (Barcelona). Active cybersickness research topic; covers AR, haptics, VR-human behaviour, VR-industry, VR-medicine.'},
+
+  { abbr:'Virtual Reality', full:'Virtual Reality (Springer)', area:'XR',
+    submissionType:'rolling', nextDeadline:null, if:5.0, q:'Q1', country:'Germany', fit:['Cybersickness','MR'],
+    cycles:[{label:'Rolling — Springer Editorial Manager',dot:'rolling',note:'~12–16 week review. Strong cybersickness representation.'}],
+    desc:'★★ Springer flagship VR journal — most cited venue for cybersickness research. IF 5.0, Q1.'},
+
+  { abbr:'Displays', full:'Displays (Elsevier)', area:'XR',
+    submissionType:'rolling', nextDeadline:null, if:3.7, q:'Q2', country:'UK', fit:['Cybersickness','MR'],
+    cycles:[{label:'Rolling — Elsevier',dot:'rolling',note:'Display tech + VR/AR/MR + display-human interface.'}],
+    desc:'Mid-tier journal for display-tech, HMDs, and VR cybersickness research.'},
+
+  { abbr:'PRESENCE V&AR', full:'PRESENCE: Virtual and Augmented Reality (MIT Press)', area:'XR',
+    submissionType:'rolling', nextDeadline:null, if:1.5, q:'Q3', country:'USA', fit:['MR','Cybersickness'],
+    cycles:[{label:'Rolling — MIT Press, quarterly publishing',dot:'rolling',note:'Renamed from "Presence: Teleoperators..." in 2021. Active in 2025.'}],
+    desc:'Classic XR journal — presence, immersion, virtual environments. Strong historical canon.'},
 
   { abbr:'ACM TOG', full:'ACM Transactions on Graphics', area:'XR',
-    submissionType:'special', nextDeadline:'2026-06-18',
+    submissionType:'special', nextDeadline:'2026-06-18', if:6.2, q:'Q1', country:'USA', fit:['MR'],
     cycles:[
       {label:'SIGGRAPH 2026 — abstract Jan 23, paper Jun 18',dot:'special',note:'Presented at SIGGRAPH Jul 2026, Los Angeles.'},
       {label:'SIGGRAPH Asia 2026 — abstract May 5 (Stage 1)',dot:'special',note:'Presented at SIGGRAPH Asia Dec 2026, Kuala Lumpur.'},
@@ -714,32 +781,37 @@ const JOURNALS = [
 
   // ── HAPTICS ──
   { abbr:'IEEE ToH', full:'IEEE Transactions on Haptics', area:'Haptics',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:2.6, q:'Q1', country:'USA', fit:['Haptics','Deaf/HoH'],
     cycles:[
       {label:'Rolling journal submissions year-round',dot:'rolling',note:''},
       {label:'IEEE Haptics Symposium presentation track — Jan 31, 2026 (passed)',dot:'special',note:'Submit ToH paper for presentation at Symposium.'},
     ],
-    desc:'Leading journal for haptic interfaces, vibrotactile systems, and touch perception.'},
+    desc:'★ Leading journal for haptic interfaces, vibrotactile systems, and touch perception.'},
 
   { abbr:'JMUI', full:'Journal on Multimodal User Interfaces (Springer)', area:'Haptics',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:2.2, q:'Q2', country:'Germany', fit:['Haptics','Deaf/HoH'],
     cycles:[{label:'Rolling — Springer',dot:'rolling',note:'Covers haptic, auditory, gestural interaction.'}],
     desc:'Covers multimodal interaction including haptic, auditory, and gestural systems.'},
 
   // ── ACCESSIBILITY ──
   { abbr:'ACM TACCESS', full:'ACM Transactions on Accessible Computing', area:'Accessibility',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:2.6, q:'Q1', country:'USA', fit:['Deaf/HoH','Assistive Tech','XR Access'],
     cycles:[{label:'Rolling — quarterly journal',dot:'rolling',note:'~8–12 week review. Strong fit for Deaf/HoH + AT research.'}],
-    desc:'Most targeted journal for Deaf/HoH and assistive tech research — profile fit ★★★.'},
+    desc:'★★ Most targeted journal for Deaf/HoH and assistive tech research — profile fit ★★★.'},
 
   { abbr:'DR:AT', full:'Disability and Rehabilitation: Assistive Technology', area:'Accessibility',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:2.5, q:'Q2', country:'UK', fit:['Deaf/HoH','Assistive Tech'],
     cycles:[{label:'Rolling — Taylor & Francis',dot:'rolling',note:'Clinical + technical AT; interdisciplinary scope.'}],
     desc:'Clinical and technical AT research — Deaf/HoH, hearing devices, access tools.'},
 
+  { abbr:'UAIS', full:'Universal Access in the Information Society (Springer)', area:'Accessibility',
+    submissionType:'rolling', nextDeadline:null, if:2.7, q:'Q2', country:'Germany', fit:['Assistive Tech','Deaf/HoH','XR Access'],
+    cycles:[{label:'Rolling — Springer',dot:'rolling',note:'Equitable access; universal design; XR accessibility.'}],
+    desc:'★ Best mid-tier accessibility journal for inclusive design and XR access research.'},
+
   // ── UBICOMP ──
   { abbr:'IMWUT', full:'Proc. ACM on Interactive, Mobile, Wearable & Ubiquitous', area:'Ubicomp',
-    submissionType:'quarterly', nextDeadline:'2026-08-01',
+    submissionType:'quarterly', nextDeadline:'2026-08-01', if:4.4, q:'Q1', country:'USA', fit:['Haptics','Assistive Tech'],
     cycles:[
       {label:'Feb 1 — new submissions',dot:'quarterly',note:''},
       {label:'May 1 — new submissions',dot:'quarterly',note:''},
@@ -749,14 +821,22 @@ const JOURNALS = [
     desc:'ACM UbiComp proceedings journal — 3 new-submission cycles per year. Published quarterly.'},
 
   { abbr:'IEEE Pervasive', full:'IEEE Pervasive Computing', area:'Ubicomp',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:3.6, q:'Q1', country:'USA', fit:[],
     cycles:[{label:'Rolling — quarterly magazine',dot:'rolling',note:'Call for special issue themes published periodically.'}],
     desc:'Pervasive and embedded systems — smart environments, IoT, wearables.'},
 
   { abbr:'PUC', full:'Personal and Ubiquitous Computing (Springer)', area:'Ubicomp',
-    submissionType:'rolling', nextDeadline:null,
+    submissionType:'rolling', nextDeadline:null, if:2.3, q:'Q2', country:'Germany', fit:[],
     cycles:[{label:'Rolling — Springer',dot:'rolling',note:'Broad ubicomp scope; continuous submissions via Editorial Manager.'}],
     desc:'Broad ubicomp journal — contextual computing, smart devices, ambient interaction.'},
+
+  { abbr:'Sensors', full:'Sensors (MDPI) — VR special issues', area:'Ubicomp',
+    submissionType:'rolling', nextDeadline:null, if:3.4, q:'Q2', country:'Switzerland', fit:['Cybersickness','Haptics','Assistive Tech'],
+    cycles:[
+      {label:'Rolling — open access, semimonthly',dot:'rolling',note:'Fast review (~14 days first decision).'},
+      {label:'VR Rehabilitation special issue — active',dot:'special',note:'Sensors-for-VR + HCI smart environments tracks.'},
+    ],
+    desc:'Open-access mid-tier — strong VR-cybersickness sensors and physiological-signal tracks.'},
 ];
 
 /* ── ENRICH CONFERENCES ──────────────────────────────────────── */
@@ -775,12 +855,14 @@ function getSeason(m){ return m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=1
 function getRegion(loc){
   if(!loc||loc==='TBD') return 'tbd';
   const l=loc.toLowerCase();
+  if(['india','hyderabad','kolkata','bangalore','bengaluru','delhi','mumbai','chennai','iit'].some(x=>l.includes(x))) return 'india';
+  if(['japan','sendai','okinawa','tokyo','osaka','kyoto'].some(x=>l.includes(x))) return 'japan';
   if(['usa','united states','las vegas','detroit','chicago','new york','los angeles','long beach','reno','pittsburgh','minneapolis','salt lake'].some(x=>l.includes(x))) return 'usa';
   if(['spain','uk','wales','italy','sweden','finland','france','germany','greece','portugal','scotland','edinburgh','austria','london','york','bari','napoli','siena','porto','gothenburg','vaasa','patras','vienna','swansea','barcelona'].some(x=>l.includes(x))) return 'europe';
-  if(['japan','korea','singapore','malaysia','cyprus','kuala','daegu','limassol','sendai','okinawa'].some(x=>l.includes(x))) return 'asia';
+  if(['korea','singapore','malaysia','cyprus','kuala','daegu','incheon','limassol'].some(x=>l.includes(x))) return 'asia';
   return 'other';
 }
-const FLAG={usa:'🇺🇸',europe:'🌍',asia:'🌏',other:'🌎',tbd:'📍'};
+const FLAG={usa:'🇺🇸',europe:'🌍',asia:'🌏',japan:'🇯🇵',india:'🇮🇳',other:'🌎',tbd:'📍'};
 const MNAMES=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 const DATA=RAW.map(r=>{
@@ -792,7 +874,7 @@ const DATA=RAW.map(r=>{
 });
 
 /* ── STATE ───────────────────────────────────────────────────── */
-const PROFILE_FITS=['Deaf/HoH','Assistive Tech','MR','Collab'];
+const PROFILE_FITS=['Deaf/HoH','Assistive Tech','MR','Collab','Cybersickness'];
 const SAVED=JSON.parse(localStorage.getItem('tracker-v3-state')||'null');
 const S={
   cats:new Set(SAVED?.cats||['all']),
@@ -802,6 +884,7 @@ const S={
   skip2027:!!SAVED?.skip2027, starredOnly:false, view:'grid',
   starred:new Set(JSON.parse(localStorage.getItem('tracker-v2-starred')||'[]')),
   section:'conferences', jArea:'all', jType:'all', jSort:'area', jSoonOnly:false,
+  jCountry:'all', jFit:'all', jQ1Only:false,
   profileDefault: !SAVED, // whether to show "showing your profile" banner
 };
 function saveStarred(){ localStorage.setItem('tracker-v2-starred',JSON.stringify([...S.starred])); }
@@ -946,10 +1029,14 @@ function filteredJournals(){
     if(S.jArea!=='all'&&j.area!==S.jArea) return false;
     if(S.jType!=='all'&&j.submissionType!==S.jType) return false;
     if(S.jSoonOnly&&!jIsSoon(j)) return false;
+    if(S.jCountry!=='all'&&j.country!==S.jCountry) return false;
+    if(S.jFit!=='all'&&(!j.fit||!j.fit.includes(S.jFit))) return false;
+    if(S.jQ1Only&&j.q!=='Q1') return false;
     return true;
   });
   if(S.jSort==='area') list.sort((a,b)=>(AREA_ORDER[a.area]??9)-(AREA_ORDER[b.area]??9)||a.abbr.localeCompare(b.abbr));
   else if(S.jSort==='alpha') list.sort((a,b)=>a.abbr.localeCompare(b.abbr));
+  else if(S.jSort==='if') list.sort((a,b)=>(b.if??0)-(a.if??0)||a.abbr.localeCompare(b.abbr));
   else if(S.jSort==='deadline') list.sort((a,b)=>{
     const da=a.nextDeadline?new Date(a.nextDeadline):new Date('2099-01-01');
     const db=b.nextDeadline?new Date(b.nextDeadline):new Date('2099-01-01');
@@ -958,19 +1045,25 @@ function filteredJournals(){
   return list;
 }
 
+const COUNTRY_FLAG={USA:'🇺🇸',UK:'🇬🇧',Germany:'🇩🇪',Switzerland:'🇨🇭',Japan:'🇯🇵',India:'🇮🇳',France:'🇫🇷',Italy:'🇮🇹',Spain:'🇪🇸'};
 function journalCardHtml(j){
   const c=jcc(j);
   const ac=j.area==='HCI'?'hci':j.area==='XR'?'xr':j.area==='Haptics'?'hap':j.area==='Accessibility'?'acc':'ubi';
   const typeBadge=j.submissionType==='rolling'?'<span class="badge rolling">Rolling</span>':j.submissionType==='quarterly'?'<span class="badge quarterly">Quarterly</span>':'<span class="badge special">Special Issue</span>';
   const soon=jIsSoon(j);
   const cyclesHtml=j.cycles.map(cy=>`<div class="jcard-date-row"><div class="jcard-date-dot ${cy.dot}"></div><div><span class="jcard-date-text">${cy.label}</span>${cy.note?` <span style="color:var(--fg-dim);font-size:10px">— ${cy.note}</span>`:''}</div></div>`).join('');
+  const ifBadge=j.if?`<span class="badge if-badge" title="2024 Impact Factor">IF ${j.if}</span>`:'';
+  const qBadge=j.q?`<span class="badge q-${j.q.toLowerCase()}" title="Quartile ranking">${j.q}</span>`:'';
+  const countryBadge=j.country?`<span class="badge country-badge">${COUNTRY_FLAG[j.country]||''} ${j.country}</span>`:'';
+  const fitHtml=(j.fit&&j.fit.length)?`<div class="fit-tags" style="margin-top:6px">${j.fit.map(f=>`<span class="fit-tag${S.fits.has(f)?' on':''}" data-fit="${f}">${f}</span>`).join('')}</div>`:'';
   return`<article class="jcard ${c}${soon?' soon-j':''}" role="listitem">
   <div class="jcard-hd">
     <div class="jcard-abbrev">${j.abbr}</div>
     ${soon?'<span class="badge soon-b">Deadline soon</span>':''}
   </div>
-  <div class="jbadges"><span class="badge ${ac}">${j.area}</span>${typeBadge}</div>
+  <div class="jbadges"><span class="badge ${ac}">${j.area}</span>${typeBadge}${qBadge}${ifBadge}${countryBadge}</div>
   <div class="jcard-name">${j.full}</div>
+  ${fitHtml}
   <div class="jcard-dates">
     <div class="jcard-dates-label">Submission windows</div>
     ${cyclesHtml}
@@ -1203,6 +1296,22 @@ document.getElementById('jSortSel').addEventListener('change',e=>{S.jSort=e.targ
 // Journal soon toggle
 document.getElementById('btnJSoon').addEventListener('click',function(){
   S.jSoonOnly=!S.jSoonOnly;this.classList.toggle('active',S.jSoonOnly);renderJournals();
+});
+
+// Journal Q1 only toggle
+document.getElementById('btnJQ1').addEventListener('click',function(){
+  S.jQ1Only=!S.jQ1Only;this.classList.toggle('active',S.jQ1Only);renderJournals();
+});
+
+// Journal country select
+document.getElementById('jCountrySel').addEventListener('change',e=>{S.jCountry=e.target.value;renderJournals();});
+
+// Journal fit chips
+document.getElementById('jFitChips').addEventListener('click',e=>{
+  const btn=e.target.closest('.chip');if(!btn) return;
+  S.jFit=btn.dataset.jfit;
+  document.querySelectorAll('#jFitChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.jfit===S.jFit));
+  renderJournals();
 });
 
 // Toast
