@@ -131,6 +131,9 @@ button{cursor:pointer;border:none;background:none}
 .chip.cat-hci.active{background:var(--hci)}
 .chip.cat-xr.active{background:var(--xr)}
 .chip.cat-hap.active{background:var(--hap)}
+.chip.fit{border-style:dashed}
+.chip.fit.active{background:rgba(167,139,250,.85);color:var(--ink);border-color:transparent;border-style:solid}
+.chip-divider{width:1px;height:20px;background:var(--rule);margin:0 4px;align-self:center;flex-shrink:0}
 .chip.neutral.active,.chip.toggle.active,.chip.tier-chip.active{background:var(--fg-mute);color:var(--ink)}
 .chip.t1.active{background:var(--t1);color:var(--ink)}
 .chip.t2.active{background:var(--t2);color:var(--ink)}
@@ -321,12 +324,18 @@ main{padding:20px 24px 56px}
   <!-- CONTROLS -->
   <div class="controls" role="search">
     <div class="ctrl-row">
-      <span class="ctrl-label">Track</span>
-      <div class="chips" id="catChips" role="group" aria-label="Category filter">
+      <span class="ctrl-label">Area</span>
+      <div class="chips" id="catChips" role="group" aria-label="Area filter">
         <button class="chip cat-all active" data-cat="all">All</button>
         <button class="chip cat-hci" data-cat="HCI">HCI</button>
         <button class="chip cat-xr" data-cat="XR">XR / VR / AR</button>
         <button class="chip cat-hap" data-cat="Haptics">Haptics</button>
+        <span class="chip-divider" aria-hidden="true"></span>
+        <button class="chip fit" data-cat="Deaf/HoH">Deaf/HoH</button>
+        <button class="chip fit" data-cat="Assistive Tech">Assistive Tech</button>
+        <button class="chip fit" data-cat="MR">Mixed Reality</button>
+        <button class="chip fit" data-cat="XR Access">XR Access</button>
+        <button class="chip fit" data-cat="Collab">Collaboration</button>
       </div>
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
@@ -340,18 +349,6 @@ main{padding:20px 24px 56px}
         <button class="chip t1" data-tier="1">T1 Must-Target</button>
         <button class="chip t2" data-tier="2">T2 High-Relevance</button>
         <button class="chip neutral" data-tier="3">T3 Niche</button>
-      </div>
-    </div>
-    <div class="ctrl-row">
-      <span class="ctrl-label">Fit</span>
-      <div class="chips" id="fitChips" role="group" aria-label="Research fit filter">
-        <button class="chip neutral active" data-fit="all">All</button>
-        <button class="chip neutral" data-fit="Deaf/HoH">Deaf/HoH</button>
-        <button class="chip neutral" data-fit="Assistive Tech">Assistive Tech</button>
-        <button class="chip neutral" data-fit="MR">Mixed Reality</button>
-        <button class="chip neutral" data-fit="XR Access">XR Access</button>
-        <button class="chip neutral" data-fit="Collab">Collaboration</button>
-        <button class="chip neutral" data-fit="Haptics">Haptics</button>
       </div>
     </div>
     <div class="ctrl-row">
@@ -660,7 +657,7 @@ const DATA=RAW.map(r=>{
 
 /* ── STATE ───────────────────────────────────────────────────── */
 const S={
-  cats:new Set(['all']), fits:new Set(['all']), season:'all', region:'all', sort:'chrono',
+  cats:new Set(['all']), season:'all', region:'all', sort:'chrono',
   tier:'all', q:'', bestOnly:false, confirmedOnly:false,
   skip2027:false, starredOnly:false, view:'grid',
   starred:new Set(JSON.parse(localStorage.getItem('tracker-v2-starred')||'[]')),
@@ -672,8 +669,7 @@ function saveStarred(){ localStorage.setItem('tracker-v2-starred',JSON.stringify
 function filtered(){
   let list=DATA.filter(d=>{
     if(S.starredOnly&&!S.starred.has(d.id)) return false;
-    if(!S.cats.has('all')&&!d.cats.some(c=>S.cats.has(c))) return false;
-    if(!S.fits.has('all')&&!d.fit.some(f=>S.fits.has(f))) return false;
+    if(!S.cats.has('all')&&!d.cats.some(c=>S.cats.has(c))&&!d.fit.some(f=>S.cats.has(f))) return false;
     if(S.season!=='all'&&d.season!==S.season) return false;
     if(S.region!=='all'&&d.region!==S.region) return false;
     if(S.tier!=='all'){
@@ -725,7 +721,7 @@ function cardHtml(d){
     ${d.cats.map(c=>`<span class="badge ${c==='HCI'?'hci':c==='XR'?'xr':'hap'}">${c}</span>`).join('')}
   </div>
   <div class="card-focus">${d.full}</div>
-  ${d.fit.length?`<div class="fit-tags">${d.fit.map(f=>`<span class="fit-tag${S.fits.has(f)?' on':''}" data-fit="${f}">${f}</span>`).join('')}</div>`:''}
+  ${d.fit.length?`<div class="fit-tags">${d.fit.map(f=>`<span class="fit-tag${S.cats.has(f)?' on':''}" data-fit="${f}">${f}</span>`).join('')}</div>`:''}
   <div class="card-meta">
     <div class="meta-row"><div class="meta-dot ${statusCls}"></div><span class="meta-date${d.confirmed?'':' tbd'}">${d.date}</span></div>
     <div class="meta-row"><span style="font-size:14px">${FLAG[d.region]}</span><span class="meta-loc">${d.loc}</span></div>
@@ -862,16 +858,6 @@ document.getElementById('catChips').addEventListener('click',e=>{
   render();
 });
 
-// Fit chips (multi-select)
-document.getElementById('fitChips').addEventListener('click',e=>{
-  const btn=e.target.closest('.chip');if(!btn) return;
-  const f=btn.dataset.fit;
-  if(f==='all'){S.fits=new Set(['all']);}
-  else{S.fits.delete('all');S.fits.has(f)?S.fits.delete(f):S.fits.add(f);if(!S.fits.size) S.fits.add('all');}
-  document.querySelectorAll('#fitChips .chip').forEach(b=>{const v=b.dataset.fit;b.classList.toggle('active',v==='all'?S.fits.has('all'):S.fits.has(v));});
-  render();
-});
-
 // Tier chips
 document.getElementById('tierChips').addEventListener('click',e=>{
   const btn=e.target.closest('.chip');if(!btn) return;
@@ -911,8 +897,8 @@ document.getElementById('gridView').addEventListener('click',e=>{
   const tag=e.target.closest('.fit-tag');
   if(tag){
     const f=tag.dataset.fit;
-    S.fits.delete('all');S.fits.has(f)?S.fits.delete(f):S.fits.add(f);if(!S.fits.size) S.fits.add('all');
-    document.querySelectorAll('#fitChips .chip').forEach(b=>{const v=b.dataset.fit;b.classList.toggle('active',v==='all'?S.fits.has('all'):S.fits.has(v));});
+    S.cats.delete('all');S.cats.has(f)?S.cats.delete(f):S.cats.add(f);if(!S.cats.size) S.cats.add('all');
+    document.querySelectorAll('#catChips .chip').forEach(b=>{const v=b.dataset.cat;b.classList.toggle('active',v==='all'?S.cats.has('all'):S.cats.has(v));});
     render();return;
   }
   const btn=e.target.closest('.star-btn');if(!btn) return;
