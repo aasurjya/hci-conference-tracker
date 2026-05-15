@@ -132,7 +132,13 @@ button{cursor:pointer;border:none;background:none}
 .chip.cat-xr.active{background:var(--xr)}
 .chip.cat-hap.active{background:var(--hap)}
 .chip.fit{border-style:dashed}
-.chip.fit.active{background:rgba(167,139,250,.85);color:var(--ink);border-color:transparent;border-style:solid}
+.chip.fit.active{color:var(--ink);border-color:transparent;border-style:solid;font-weight:600}
+.chip.fit[data-fit="Deaf/HoH"].active{background:var(--soon)}
+.chip.fit[data-fit="Assistive Tech"].active{background:var(--go)}
+.chip.fit[data-fit="MR"].active{background:var(--xr)}
+.chip.fit[data-fit="XR Access"].active{background:var(--ubi)}
+.chip.fit[data-fit="Collab"].active{background:var(--gold)}
+.chip.fit[data-fit="Haptics"].active{background:var(--hap)}
 .chip-divider{width:1px;height:20px;background:var(--rule);margin:0 4px;align-self:center;flex-shrink:0}
 .chip.neutral.active,.chip.toggle.active,.chip.tier-chip.active{background:var(--fg-mute);color:var(--ink)}
 .chip.t1.active{background:var(--t1);color:var(--ink)}
@@ -277,11 +283,58 @@ main{padding:20px 24px 56px}
 .j-statusbar{height:34px;padding:0 24px;display:flex;align-items:center;gap:14px;background:var(--ink);border-bottom:1px solid var(--rule);font-size:12px;color:var(--fg-mute);position:sticky;top:52px;z-index:190}
 .j-stat-num{color:var(--fg);font-weight:600}
 
+/* ─── HERO STRIP ─────────────────────────────────────────────────── */
+.hero{padding:14px 24px;background:linear-gradient(90deg,rgba(192,132,252,.06),rgba(56,189,248,.06),rgba(251,146,60,.06));border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:12.5px}
+.hero-block{display:flex;align-items:center;gap:8px}
+.hero-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--fg-dim)}
+.hero-pill{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;background:var(--ink2);border:1px solid var(--rule);color:var(--fg-mute)}
+.hero-pill.profile{color:var(--fg)}
+.hero-core{display:flex;gap:5px;flex-wrap:wrap}
+.hero-core-btn{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(251,191,36,.12);color:var(--gold);border:1px solid rgba(251,191,36,.3);cursor:pointer;transition:all var(--t-fast)}
+.hero-core-btn:hover{background:rgba(251,191,36,.22);transform:translateY(-1px)}
+.hero-divider{width:1px;height:22px;background:var(--rule)}
+
+/* ─── ACTIVE FILTER BANNER ───────────────────────────────────────── */
+.filter-banner{padding:9px 24px;background:rgba(167,139,250,.08);border-bottom:1px solid rgba(167,139,250,.2);display:flex;align-items:center;gap:12px;font-size:12px;color:var(--fg)}
+.filter-banner.hidden{display:none}
+.filter-banner .fb-icon{color:#c4b5fd;font-size:14px}
+.filter-banner .fb-clear{margin-left:auto;padding:5px 12px;border-radius:6px;background:var(--ink3);color:var(--fg);font-size:11px;font-weight:600;border:1px solid var(--rule);cursor:pointer;transition:all var(--t-fast)}
+.filter-banner .fb-clear:hover{background:var(--fg);color:var(--ink)}
+
+/* ─── STRATEGY PANEL ─────────────────────────────────────────────── */
+.strategy{margin:0 24px;border:1px solid var(--rule);border-radius:10px;background:var(--ink2);overflow:hidden;transition:all var(--t-med)}
+.strategy[open]{margin-bottom:14px;margin-top:14px}
+.strategy summary{padding:12px 16px;cursor:pointer;font-size:13px;font-weight:600;color:var(--fg);list-style:none;display:flex;align-items:center;gap:10px;user-select:none}
+.strategy summary::-webkit-details-marker{display:none}
+.strategy summary::before{content:'▸';font-size:10px;color:var(--fg-mute);transition:transform var(--t-fast);display:inline-block}
+.strategy[open] summary::before{transform:rotate(90deg)}
+.strategy summary:hover{background:var(--ink3)}
+.strategy-sub{font-size:11px;color:var(--fg-mute);font-weight:400;margin-left:auto}
+.strategy-body{padding:4px 16px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;border-top:1px solid var(--rule);margin-top:2px;padding-top:14px}
+.strategy-col h4{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--fg-dim);margin-bottom:8px}
+.strategy-col .season-tag{display:inline-block;padding:3px 8px;margin:2px 3px 2px 0;border-radius:5px;background:var(--ink3);color:var(--fg);font-size:11px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all var(--t-fast)}
+.strategy-col .season-tag:hover{border-color:var(--mute);transform:translateY(-1px)}
+.strategy-col .season-meta{font-size:10.5px;color:var(--fg-mute);font-style:italic;margin-top:6px}
+.strategy-col ul{list-style:none;padding:0}
+.strategy-col li{font-size:12px;color:var(--fg);margin-bottom:6px;padding-left:14px;position:relative;line-height:1.5}
+.strategy-col li::before{content:'→';position:absolute;left:0;color:var(--hci)}
+.strategy-col li strong{color:var(--gold)}
+
+/* ─── TIER LEFT ACCENT ──────────────────────────────────────────── */
+.card.tier-1{box-shadow:inset 4px 0 0 0 var(--t1)}
+.card.tier-2{box-shadow:inset 4px 0 0 0 var(--t2)}
+.card.tier-3{box-shadow:inset 4px 0 0 0 var(--t3)}
+.card.tier-1.soon,.card.tier-2.soon,.card.tier-3.soon{box-shadow:inset 4px 0 0 0 var(--t1),0 0 0 1px var(--soon)}
+.card.tier-1{padding-left:18px}.card.tier-2{padding-left:18px}.card.tier-3{padding-left:18px}
+
 /* ─── EMPTY ──────────────────────────────────────────────────────── */
 .empty{grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--fg-mute)}
 .empty-icon{font-size:28px;margin-bottom:10px}
 .empty h3{font-size:15px;font-weight:500;margin-bottom:4px}
-.empty p{font-size:13px;color:var(--fg-dim)}
+.empty p{font-size:13px;color:var(--fg-dim);margin-bottom:14px}
+.empty-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.empty-actions button{padding:7px 14px;border-radius:6px;background:var(--ink2);border:1px solid var(--rule);color:var(--fg);font-size:12px;font-weight:500;cursor:pointer;transition:all var(--t-fast)}
+.empty-actions button:hover{background:var(--ink3);border-color:var(--mute)}
 
 /* ─── TOAST ──────────────────────────────────────────────────────── */
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--fg);color:var(--ink);padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:opacity var(--t-fast),transform var(--t-fast);z-index:999;white-space:nowrap}
@@ -321,25 +374,108 @@ main{padding:20px 24px 56px}
 <!-- ═══════════════════════════════════════════════════════════════ -->
 <div id="conferencesSection">
 
+  <!-- HERO: profile + core cluster -->
+  <div class="hero" id="hero">
+    <div class="hero-block">
+      <span class="hero-label">Profile</span>
+      <span class="hero-pill profile">Deaf/HoH</span>
+      <span class="hero-pill profile">Mixed Reality</span>
+      <span class="hero-pill profile">Assistive Tech</span>
+      <span class="hero-pill profile">Collaboration</span>
+    </div>
+    <span class="hero-divider"></span>
+    <div class="hero-block">
+      <span class="hero-label">⭐ Core Stack</span>
+      <div class="hero-core">
+        <button class="hero-core-btn" data-jump="ASSETS">ASSETS</button>
+        <button class="hero-core-btn" data-jump="CHI">CHI</button>
+        <button class="hero-core-btn" data-jump="ISMAR">ISMAR</button>
+        <button class="hero-core-btn" data-jump="CSCW">CSCW</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVE FILTER BANNER -->
+  <div class="filter-banner hidden" id="filterBanner" role="status">
+    <span class="fb-icon">●</span>
+    <span id="fbText">Showing your Tier-1 core stack matched to your profile.</span>
+    <button class="fb-clear" id="fbClear">Clear filters · see all</button>
+  </div>
+
+  <!-- STRATEGY PANEL -->
+  <details class="strategy" id="strategyPanel">
+    <summary>Why these venues — submission calendar & strategy<span class="strategy-sub">From your personalized PhD venue chart</span></summary>
+    <div class="strategy-body">
+      <div class="strategy-col">
+        <h4>🌱 Spring 2026</h4>
+        <span class="season-tag" data-jump="CHI">CHI</span>
+        <span class="season-tag" data-jump="IEEE VR">IEEE VR</span>
+        <span class="season-tag" data-jump="TEI">TEI</span>
+        <span class="season-tag" data-jump="HRI">HRI</span>
+        <span class="season-tag" data-jump="IEEE Haptics">IEEE Haptics</span>
+        <div class="season-meta">Approx. submission: Oct–Jan prior year</div>
+      </div>
+      <div class="strategy-col">
+        <h4>☀ Summer 2026</h4>
+        <span class="season-tag" data-jump="DIS">DIS</span>
+        <span class="season-tag" data-jump="EuroHaptics">EuroHaptics</span>
+        <span class="season-tag" data-jump="SIGGRAPH">SIGGRAPH</span>
+        <div class="season-meta">Approx. submission: Jan–Feb</div>
+      </div>
+      <div class="strategy-col">
+        <h4>🍂 Fall 2026</h4>
+        <span class="season-tag" data-jump="ASSETS">ASSETS</span>
+        <span class="season-tag" data-jump="UIST">UIST</span>
+        <span class="season-tag" data-jump="ISMAR">ISMAR</span>
+        <span class="season-tag" data-jump="CSCW">CSCW</span>
+        <span class="season-tag" data-jump="ICMI">ICMI</span>
+        <span class="season-tag" data-jump="SUI">SUI</span>
+        <div class="season-meta">Approx. submission: Apr–Jul</div>
+      </div>
+      <div class="strategy-col">
+        <h4>❄ Winter 2026</h4>
+        <span class="season-tag" data-jump="SIGGRAPH Asia">SIGGRAPH Asia</span>
+        <span class="season-tag" data-jump="VRST">VRST</span>
+        <span class="season-tag" data-jump="EuroVR">EuroVR</span>
+        <div class="season-meta">Approx. submission: Jul–Aug</div>
+      </div>
+      <div class="strategy-col" style="grid-column:1/-1">
+        <h4>📌 Research Strategy</h4>
+        <ul>
+          <li><strong>Core cluster:</strong> ASSETS → CHI → ISMAR → CSCW covers every dimension of your profile.</li>
+          <li><strong>Deaf/HoH + MR:</strong> Same work, two framings — technical to IEEE VR / ISMAR; user-centred to ASSETS / CHI.</li>
+          <li><strong>Haptics for Deaf/HoH:</strong> TEI, EuroHaptics, and IEEE ToH are ideal for vibrotactile work.</li>
+          <li><strong>Top journal pick:</strong> ACM TACCESS for Deaf/HoH; IEEE ToH for haptic systems.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
   <!-- CONTROLS -->
   <div class="controls" role="search">
     <div class="ctrl-row">
-      <span class="ctrl-label">Area</span>
-      <div class="chips" id="catChips" role="group" aria-label="Area filter">
+      <span class="ctrl-label">Track</span>
+      <div class="chips" id="catChips" role="group" aria-label="Venue track filter">
         <button class="chip cat-all active" data-cat="all">All</button>
         <button class="chip cat-hci" data-cat="HCI">HCI</button>
         <button class="chip cat-xr" data-cat="XR">XR / VR / AR</button>
         <button class="chip cat-hap" data-cat="Haptics">Haptics</button>
-        <span class="chip-divider" aria-hidden="true"></span>
-        <button class="chip fit" data-cat="Deaf/HoH">Deaf/HoH</button>
-        <button class="chip fit" data-cat="Assistive Tech">Assistive Tech</button>
-        <button class="chip fit" data-cat="MR">Mixed Reality</button>
-        <button class="chip fit" data-cat="XR Access">XR Access</button>
-        <button class="chip fit" data-cat="Collab">Collaboration</button>
       </div>
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
         <input type="text" id="search" placeholder="Search name, focus, location…" autocomplete="off">
+      </div>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Fit</span>
+      <div class="chips" id="fitChips" role="group" aria-label="Research-fit filter">
+        <button class="chip neutral active" data-fit="all">All</button>
+        <button class="chip fit" data-fit="Deaf/HoH">Deaf/HoH</button>
+        <button class="chip fit" data-fit="Assistive Tech">Assistive Tech</button>
+        <button class="chip fit" data-fit="MR">Mixed Reality</button>
+        <button class="chip fit" data-fit="XR Access">XR Access</button>
+        <button class="chip fit" data-fit="Collab">Collaboration</button>
+        <button class="chip fit" data-fit="Haptics">Haptics-focused</button>
       </div>
     </div>
     <div class="ctrl-row">
@@ -656,20 +792,70 @@ const DATA=RAW.map(r=>{
 });
 
 /* ── STATE ───────────────────────────────────────────────────── */
+const PROFILE_FITS=['Deaf/HoH','Assistive Tech','MR','Collab'];
+const SAVED=JSON.parse(localStorage.getItem('tracker-v3-state')||'null');
 const S={
-  cats:new Set(['all']), season:'all', region:'all', sort:'chrono',
-  tier:'all', q:'', bestOnly:false, confirmedOnly:false,
-  skip2027:false, starredOnly:false, view:'grid',
+  cats:new Set(SAVED?.cats||['all']),
+  fits:new Set(SAVED?.fits||PROFILE_FITS),
+  season:SAVED?.season||'all', region:SAVED?.region||'all', sort:SAVED?.sort||'chrono',
+  tier:SAVED?.tier ?? '1', q:'', bestOnly:!!SAVED?.bestOnly, confirmedOnly:!!SAVED?.confirmedOnly,
+  skip2027:!!SAVED?.skip2027, starredOnly:false, view:'grid',
   starred:new Set(JSON.parse(localStorage.getItem('tracker-v2-starred')||'[]')),
   section:'conferences', jArea:'all', jType:'all', jSort:'area', jSoonOnly:false,
+  profileDefault: !SAVED, // whether to show "showing your profile" banner
 };
 function saveStarred(){ localStorage.setItem('tracker-v2-starred',JSON.stringify([...S.starred])); }
+function saveState(){
+  localStorage.setItem('tracker-v3-state',JSON.stringify({
+    cats:[...S.cats],fits:[...S.fits],season:S.season,region:S.region,sort:S.sort,
+    tier:S.tier,bestOnly:S.bestOnly,confirmedOnly:S.confirmedOnly,skip2027:S.skip2027,
+  }));
+}
+function resetFilters(){
+  S.cats=new Set(['all']);S.fits=new Set(['all']);S.tier='all';S.season='all';S.region='all';
+  S.bestOnly=false;S.confirmedOnly=false;S.skip2027=false;S.starredOnly=false;S.profileDefault=false;
+  localStorage.removeItem('tracker-v3-state');
+  syncAllChips();render();updateBanner();
+}
+function syncAllChips(){
+  document.querySelectorAll('#catChips .chip').forEach(b=>{const c=b.dataset.cat;b.classList.toggle('active',c==='all'?S.cats.has('all'):S.cats.has(c));});
+  document.querySelectorAll('#fitChips .chip').forEach(b=>{const f=b.dataset.fit;b.classList.toggle('active',f==='all'?S.fits.has('all'):S.fits.has(f));});
+  document.querySelectorAll('#tierChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.tier===S.tier));
+  document.querySelectorAll('#seasonChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.s===S.season));
+  document.getElementById('regionSel').value=S.region;
+  document.getElementById('sortSel').value=S.sort;
+  document.getElementById('btnBest').classList.toggle('active',S.bestOnly);
+  document.getElementById('btnConfirmed').classList.toggle('active',S.confirmedOnly);
+  document.getElementById('btnSkip').classList.toggle('active',S.skip2027);
+  document.getElementById('btnStarred').classList.toggle('active',S.starredOnly);
+}
+function updateBanner(){
+  const b=document.getElementById('filterBanner');
+  const t=document.getElementById('fbText');
+  const hasNarrowing=!S.cats.has('all')||!S.fits.has('all')||S.tier!=='all'||S.season!=='all'||S.region!=='all';
+  if(S.profileDefault){
+    t.textContent='Showing your Tier-1 core stack — Deaf/HoH · Assistive Tech · MR · Collab. Refine or clear to see all 50+ venues.';
+    b.classList.remove('hidden');
+  } else if(hasNarrowing){
+    const parts=[];
+    if(!S.cats.has('all')) parts.push('Track: '+[...S.cats].join(', '));
+    if(!S.fits.has('all')) parts.push('Fit: '+[...S.fits].join(', '));
+    if(S.tier!=='all') parts.push('Tier '+S.tier);
+    if(S.season!=='all') parts.push(S.season);
+    if(S.region!=='all') parts.push(S.region);
+    t.textContent='Active filters — '+parts.join(' · ');
+    b.classList.remove('hidden');
+  } else {
+    b.classList.add('hidden');
+  }
+}
 
 /* ── FILTER ──────────────────────────────────────────────────── */
 function filtered(){
   let list=DATA.filter(d=>{
     if(S.starredOnly&&!S.starred.has(d.id)) return false;
-    if(!S.cats.has('all')&&!d.cats.some(c=>S.cats.has(c))&&!d.fit.some(f=>S.cats.has(f))) return false;
+    if(!S.cats.has('all')&&!d.cats.some(c=>S.cats.has(c))) return false;
+    if(!S.fits.has('all')&&!d.fit.some(f=>S.fits.has(f))) return false;
     if(S.season!=='all'&&d.season!==S.season) return false;
     if(S.region!=='all'&&d.region!==S.region) return false;
     if(S.tier!=='all'){
@@ -709,7 +895,8 @@ function tierBadge(t){
 function cardHtml(d){
   const c=cc(d), starred=S.starred.has(d.id);
   const statusCls=d.biennial?'biennial':d.confirmed?'confirmed':'tbd';
-  return`<article class="card ${c}${d.soon?' soon':''}" role="listitem">
+  const tierCls=d.tier?` tier-${d.tier}`:'';
+  return`<article class="card ${c}${tierCls}${d.soon?' soon':''}" id="card-${d.id}" role="listitem">
   <div class="card-hd">
     <div class="card-name">${d.n}</div>
     <button class="star-btn${starred?' on':''}" data-id="${d.id}" aria-label="${starred?'Remove bookmark':'Bookmark'}">${starred?'★':'☆'}</button>
@@ -721,7 +908,7 @@ function cardHtml(d){
     ${d.cats.map(c=>`<span class="badge ${c==='HCI'?'hci':c==='XR'?'xr':'hap'}">${c}</span>`).join('')}
   </div>
   <div class="card-focus">${d.full}</div>
-  ${d.fit.length?`<div class="fit-tags">${d.fit.map(f=>`<span class="fit-tag${S.cats.has(f)?' on':''}" data-fit="${f}">${f}</span>`).join('')}</div>`:''}
+  ${d.fit.length?`<div class="fit-tags">${d.fit.map(f=>`<span class="fit-tag${S.fits.has(f)?' on':''}" data-fit="${f}">${f}</span>`).join('')}</div>`:''}
   <div class="card-meta">
     <div class="meta-row"><div class="meta-dot ${statusCls}"></div><span class="meta-date${d.confirmed?'':' tbd'}">${d.date}</span></div>
     <div class="meta-row"><span style="font-size:14px">${FLAG[d.region]}</span><span class="meta-loc">${d.loc}</span></div>
@@ -805,15 +992,25 @@ function render(){
   S.view==='grid'?renderGrid(list):renderTimeline(list);
 }
 
+function emptyHtml(){
+  const buttons=[];
+  if(S.tier!=='all') buttons.push(`<button data-act="tier">Clear Tier</button>`);
+  if(!S.fits.has('all')) buttons.push(`<button data-act="fits">Clear Fit</button>`);
+  if(!S.cats.has('all')) buttons.push(`<button data-act="cats">Clear Track</button>`);
+  if(S.season!=='all') buttons.push(`<button data-act="season">Clear Season</button>`);
+  if(S.region!=='all') buttons.push(`<button data-act="region">Clear Region</button>`);
+  buttons.push(`<button data-act="all">Reset all</button>`);
+  return`<div class="empty"><div class="empty-icon">🔍</div><h3>No conferences match</h3><p>Try relaxing one of the active filters</p><div class="empty-actions">${buttons.join('')}</div></div>`;
+}
 function renderGrid(list){
   const el=document.getElementById('gridView');
-  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><h3>No conferences match</h3><p>Try adjusting your filters</p></div>';return;}
+  if(!list.length){el.innerHTML=emptyHtml();return;}
   el.innerHTML=list.map(cardHtml).join('');
 }
 
 function renderTimeline(list){
   const el=document.getElementById('timelineView');
-  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><h3>No conferences match</h3></div>';return;}
+  if(!list.length){el.innerHTML=emptyHtml();return;}
   const byM={}, tbd=[];
   list.forEach(d=>{ if(d.monthNum>=99){tbd.push(d);return;} if(!byM[d.monthNum]) byM[d.monthNum]=[]; byM[d.monthNum].push(d); });
   let html='';
@@ -848,14 +1045,27 @@ document.querySelectorAll('.main-tab').forEach(btn=>{
   });
 });
 
-// Category chips
+// Helper: a filter touch means user has taken control — drop the "profile default" framing
+function userInteracted(){ S.profileDefault=false; }
+
+// Track (cat) chips
 document.getElementById('catChips').addEventListener('click',e=>{
   const btn=e.target.closest('.chip');if(!btn) return;
   const cat=btn.dataset.cat;
   if(cat==='all'){S.cats=new Set(['all']);}
   else{S.cats.delete('all');S.cats.has(cat)?S.cats.delete(cat):S.cats.add(cat);if(!S.cats.size) S.cats.add('all');}
   document.querySelectorAll('#catChips .chip').forEach(b=>{const c=b.dataset.cat;b.classList.toggle('active',c==='all'?S.cats.has('all'):S.cats.has(c));});
-  render();
+  userInteracted();saveState();render();updateBanner();
+});
+
+// Research Fit chips
+document.getElementById('fitChips').addEventListener('click',e=>{
+  const btn=e.target.closest('.chip');if(!btn) return;
+  const f=btn.dataset.fit;
+  if(f==='all'){S.fits=new Set(['all']);}
+  else{S.fits.delete('all');S.fits.has(f)?S.fits.delete(f):S.fits.add(f);if(!S.fits.size) S.fits.add('all');}
+  document.querySelectorAll('#fitChips .chip').forEach(b=>{const v=b.dataset.fit;b.classList.toggle('active',v==='all'?S.fits.has('all'):S.fits.has(v));});
+  userInteracted();saveState();render();updateBanner();
 });
 
 // Tier chips
@@ -863,7 +1073,7 @@ document.getElementById('tierChips').addEventListener('click',e=>{
   const btn=e.target.closest('.chip');if(!btn) return;
   S.tier=btn.dataset.tier;
   document.querySelectorAll('#tierChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.tier===S.tier));
-  render();
+  userInteracted();saveState();render();updateBanner();
 });
 
 // Season chips
@@ -871,15 +1081,37 @@ document.getElementById('seasonChips').addEventListener('click',e=>{
   const btn=e.target.closest('.chip');if(!btn) return;
   S.season=btn.dataset.s;
   document.querySelectorAll('#seasonChips .chip').forEach(b=>b.classList.toggle('active',b.dataset.s===S.season));
-  render();
+  userInteracted();saveState();render();updateBanner();
 });
 
-document.getElementById('regionSel').addEventListener('change',e=>{S.region=e.target.value;render();});
-document.getElementById('sortSel').addEventListener('change',e=>{S.sort=e.target.value;render();});
+document.getElementById('regionSel').addEventListener('change',e=>{S.region=e.target.value;userInteracted();saveState();render();updateBanner();});
+document.getElementById('sortSel').addEventListener('change',e=>{S.sort=e.target.value;saveState();render();});
 document.getElementById('search').addEventListener('input',e=>{S.q=e.target.value;render();});
 
-function toggle(id,key){ document.getElementById(id).addEventListener('click',function(){S[key]=!S[key];this.classList.toggle('active',S[key]);render();}); }
+function toggle(id,key){ document.getElementById(id).addEventListener('click',function(){S[key]=!S[key];this.classList.toggle('active',S[key]);userInteracted();saveState();render();updateBanner();}); }
 toggle('btnBest','bestOnly');toggle('btnConfirmed','confirmedOnly');toggle('btnSkip','skip2027');toggle('btnStarred','starredOnly');
+
+// Filter banner: Clear filters
+document.getElementById('fbClear').addEventListener('click',resetFilters);
+
+// Hero core-stack jump-to-card + Strategy panel season tags
+function jumpToCard(name){
+  // ensure filters allow this card to be visible
+  let needed=false;
+  const d=DATA.find(x=>x.n===name);
+  if(!d) return;
+  if(S.tier!=='all'&&d.tier!==parseInt(S.tier)){S.tier='all';needed=true;}
+  if(!S.cats.has('all')&&!d.cats.some(c=>S.cats.has(c))){S.cats=new Set(['all']);needed=true;}
+  if(!S.fits.has('all')&&!d.fit.some(f=>S.fits.has(f))){S.fits=new Set(['all']);needed=true;}
+  if(needed){userInteracted();saveState();syncAllChips();render();updateBanner();}
+  setTimeout(()=>{
+    const el=document.getElementById('card-'+d.id.replace(/[^a-z0-9]/gi,'_'));
+    if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.transition='outline .2s';el.style.outline='2px solid var(--gold)';setTimeout(()=>el.style.outline='',1500);}
+  },80);
+}
+document.querySelectorAll('[data-jump]').forEach(b=>{
+  b.addEventListener('click',()=>jumpToCard(b.dataset.jump));
+});
 
 // View pills
 document.querySelectorAll('.view-pill').forEach(btn=>{
@@ -892,14 +1124,40 @@ document.querySelectorAll('.view-pill').forEach(btn=>{
   });
 });
 
-// Star + fit-tag click on cards
+document.getElementById('timelineView').addEventListener('click',e=>{
+  const act=e.target.closest('.empty-actions button');
+  if(!act) return;
+  const a=act.dataset.act;
+  if(a==='tier'){S.tier='all';}
+  else if(a==='fits'){S.fits=new Set(['all']);}
+  else if(a==='cats'){S.cats=new Set(['all']);}
+  else if(a==='season'){S.season='all';}
+  else if(a==='region'){S.region='all';}
+  else if(a==='all'){resetFilters();return;}
+  userInteracted();saveState();syncAllChips();render();updateBanner();
+});
+
+// Star + fit-tag click + empty-state actions on cards
 document.getElementById('gridView').addEventListener('click',e=>{
+  // Empty-state action buttons
+  const act=e.target.closest('.empty-actions button');
+  if(act){
+    const a=act.dataset.act;
+    if(a==='tier'){S.tier='all';}
+    else if(a==='fits'){S.fits=new Set(['all']);}
+    else if(a==='cats'){S.cats=new Set(['all']);}
+    else if(a==='season'){S.season='all';}
+    else if(a==='region'){S.region='all';}
+    else if(a==='all'){resetFilters();return;}
+    userInteracted();saveState();syncAllChips();render();updateBanner();return;
+  }
+  // Fit-tag on card → toggle that fit filter
   const tag=e.target.closest('.fit-tag');
   if(tag){
     const f=tag.dataset.fit;
-    S.cats.delete('all');S.cats.has(f)?S.cats.delete(f):S.cats.add(f);if(!S.cats.size) S.cats.add('all');
-    document.querySelectorAll('#catChips .chip').forEach(b=>{const v=b.dataset.cat;b.classList.toggle('active',v==='all'?S.cats.has('all'):S.cats.has(v));});
-    render();return;
+    S.fits.delete('all');S.fits.has(f)?S.fits.delete(f):S.fits.add(f);if(!S.fits.size) S.fits.add('all');
+    document.querySelectorAll('#fitChips .chip').forEach(b=>{const v=b.dataset.fit;b.classList.toggle('active',v==='all'?S.fits.has('all'):S.fits.has(v));});
+    userInteracted();saveState();render();updateBanner();return;
   }
   const btn=e.target.closest('.star-btn');if(!btn) return;
   const id=btn.dataset.id;
@@ -950,7 +1208,9 @@ document.getElementById('btnJSoon').addEventListener('click',function(){
 // Toast
 function toast(msg){ const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2000); }
 
+syncAllChips();
 render();
+updateBanner();
 </script>
 </body>
 </html>
